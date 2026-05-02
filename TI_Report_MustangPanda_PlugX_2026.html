@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TI Report — Mustang Panda PlugX Campaign 2026</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&family=Syne+Mono&display=swap');
+
+:root {
+  --ink: #0d0f14;
+  --paper: #f5f0e8;
+  --paper2: #ede7d9;
+  --paper3: #e0d9c8;
+  --red: #c0392b;
+  --red-dim: #8b2020;
+  --amber: #b8541a;
+  --green: #1a6b3c;
+  --blue: #1a3a6b;
+  --rule: rgba(13,15,20,0.15);
+  --mono: 'Space Mono', monospace;
+  --head: 'Syne', sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 13px;
+  line-height: 1.7;
+  min-height: 100vh;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 48px 32px 80px;
+}
+
+/* ── TOP BANNER ── */
+.banner {
+  background: var(--red);
+  color: #fff;
+  font-family: var(--head);
+  font-weight: 800;
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  text-align: center;
+  padding: 8px 0;
+  margin-bottom: 40px;
+}
+
+/* ── HEADER ── */
+.doc-header {
+  border-top: 3px solid var(--ink);
+  border-bottom: 1px solid var(--ink);
+  padding: 24px 0 20px;
+  margin-bottom: 32px;
+}
+.tlp-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+.tlp-badge {
+  font-family: var(--head);
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  padding: 4px 10px;
+  border: 1.5px solid var(--ink);
+}
+.tlp-white { background: #fff; }
+.report-id {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: rgba(13,15,20,0.5);
+  text-align: right;
+}
+.doc-title {
+  font-family: var(--head);
+  font-size: 36px;
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+}
+.doc-subtitle {
+  font-size: 13px;
+  color: rgba(13,15,20,0.6);
+  font-family: var(--head);
+  font-weight: 400;
+}
+.meta-row {
+  display: flex;
+  gap: 32px;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--rule);
+  flex-wrap: wrap;
+}
+.meta-item {
+  font-size: 11px;
+  font-family: var(--mono);
+}
+.meta-label {
+  color: rgba(13,15,20,0.45);
+  display: block;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 2px;
+  font-size: 10px;
+}
+.meta-val { font-weight: 700; }
+
+/* ── EXECUTIVE SUMMARY BOX ── */
+.exec-box {
+  background: var(--ink);
+  color: var(--paper);
+  padding: 24px 28px;
+  margin: 32px 0;
+  position: relative;
+}
+.exec-box::before {
+  content: 'EXECUTIVE SUMMARY';
+  font-family: var(--head);
+  font-weight: 800;
+  font-size: 9px;
+  letter-spacing: 0.25em;
+  color: rgba(245,240,232,0.4);
+  display: block;
+  margin-bottom: 12px;
+}
+.exec-box p {
+  font-size: 13.5px;
+  line-height: 1.75;
+  color: rgba(245,240,232,0.9);
+}
+
+/* ── SECTION HEADS ── */
+.section {
+  margin: 40px 0 24px;
+}
+.sec-label {
+  font-family: var(--head);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(13,15,20,0.35);
+  margin-bottom: 4px;
+}
+.sec-title {
+  font-family: var(--head);
+  font-size: 20px;
+  font-weight: 800;
+  border-bottom: 2px solid var(--ink);
+  padding-bottom: 8px;
+}
+
+/* ── PROSE ── */
+p { margin-bottom: 14px; }
+p:last-child { margin-bottom: 0; }
+
+/* ── KILL CHAIN TABLE ── */
+.kc-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  margin: 24px 0;
+  font-size: 10px;
+}
+.kc-cell {
+  background: var(--paper2);
+  border: 1px solid var(--rule);
+  padding: 10px 6px;
+  text-align: center;
+}
+.kc-phase {
+  font-family: var(--head);
+  font-weight: 700;
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(13,15,20,0.5);
+  margin-bottom: 6px;
+  display: block;
+}
+.kc-detail {
+  font-size: 10px;
+  line-height: 1.45;
+  color: var(--ink);
+}
+.kc-cell.active {
+  background: var(--ink);
+  border-color: var(--ink);
+}
+.kc-cell.active .kc-phase,
+.kc-cell.active .kc-detail {
+  color: var(--paper);
+}
+.kc-cell.active .kc-phase { color: rgba(245,240,232,0.55); }
+
+/* ── ATTACK CHAIN ── */
+.chain-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: 20px 0;
+  border-left: 2px solid var(--ink);
+}
+.chain-step {
+  display: flex;
+  gap: 20px;
+  padding: 16px 0 16px 20px;
+  position: relative;
+  border-bottom: 1px solid var(--rule);
+}
+.chain-step:last-child { border-bottom: none; }
+.chain-num {
+  font-family: var(--head);
+  font-weight: 800;
+  font-size: 28px;
+  color: var(--rule);
+  line-height: 1;
+  min-width: 32px;
+  flex-shrink: 0;
+}
+.chain-body {}
+.chain-title {
+  font-family: var(--head);
+  font-weight: 700;
+  font-size: 13px;
+  margin-bottom: 4px;
+}
+.chain-desc {
+  font-size: 12px;
+  color: rgba(13,15,20,0.65);
+  margin-bottom: 6px;
+}
+.chain-tech {
+  font-size: 10px;
+  font-family: var(--mono);
+  background: var(--paper2);
+  display: inline-block;
+  padding: 2px 6px;
+  border: 1px solid var(--rule);
+  margin-right: 4px;
+  margin-bottom: 2px;
+}
+
+/* ── IOC TABLE ── */
+.ioc-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11px;
+  margin: 20px 0;
+}
+.ioc-table th {
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--head);
+  font-weight: 700;
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 8px 10px;
+  text-align: left;
+}
+.ioc-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--rule);
+  font-family: var(--mono);
+  font-size: 10.5px;
+  word-break: break-all;
+}
+.ioc-table tr:nth-child(even) td { background: var(--paper2); }
+.conf-badge {
+  font-size: 9px;
+  font-family: var(--head);
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 0;
+  letter-spacing: 0.1em;
+}
+.conf-a1 { background: var(--red); color: #fff; }
+.conf-a2 { background: var(--amber); color: #fff; }
+.conf-b2 { background: var(--green); color: #fff; }
+.conf-b3 { background: var(--blue); color: #fff; }
+
+/* ── MITRE BOXES ── */
+.ttp-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin: 20px 0;
+}
+.ttp-card {
+  border: 1px solid var(--rule);
+  padding: 12px 14px;
+  background: var(--paper2);
+}
+.ttp-id {
+  font-family: var(--head);
+  font-weight: 700;
+  font-size: 11px;
+  color: var(--red-dim);
+  letter-spacing: 0.05em;
+}
+.ttp-name {
+  font-weight: 700;
+  font-size: 12px;
+  margin: 2px 0 4px;
+  font-family: var(--head);
+}
+.ttp-desc {
+  font-size: 11px;
+  color: rgba(13,15,20,0.6);
+  line-height: 1.5;
+}
+
+/* ── SIGMA RULE ── */
+.code-block {
+  background: var(--ink);
+  color: #a8d8a8;
+  font-family: var(--mono);
+  font-size: 11px;
+  line-height: 1.6;
+  padding: 20px 22px;
+  margin: 20px 0;
+  overflow-x: auto;
+  white-space: pre;
+}
+.code-block .c { color: #6b8c6b; }
+.code-block .k { color: #e8d4a8; }
+.code-block .s { color: #a8c8e8; }
+
+/* ── DIAMOND MODEL ── */
+.diamond-wrap {
+  display: flex;
+  justify-content: center;
+  margin: 28px 0;
+}
+.diamond-grid {
+  display: grid;
+  grid-template-columns: 180px 180px 180px;
+  grid-template-rows: 90px 90px 90px;
+  gap: 0;
+}
+.d-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  font-size: 11px;
+  text-align: center;
+}
+.d-adversary { grid-column: 2; grid-row: 1; background: var(--ink); color: var(--paper); border: 2px solid var(--ink); }
+.d-infra { grid-column: 1; grid-row: 2; background: var(--paper2); border: 1px solid var(--rule); }
+.d-capability { grid-column: 3; grid-row: 2; background: var(--paper2); border: 1px solid var(--rule); }
+.d-victim { grid-column: 2; grid-row: 3; background: var(--red); color: #fff; border: 2px solid var(--red); }
+.d-meta { font-family: var(--head); font-weight: 700; font-size: 11px; line-height: 1.3; }
+.d-sub { font-size: 10px; opacity: 0.65; margin-top: 4px; line-height: 1.4; }
+.d-arrow-h { grid-column: 2; grid-row: 2; display: flex; align-items: center; justify-content: center; font-size: 24px; color: var(--rule); }
+
+/* ── RECOMMENDATIONS ── */
+.rec-list { list-style: none; margin: 16px 0; }
+.rec-list li {
+  display: grid;
+  grid-template-columns: 24px 1fr;
+  gap: 8px;
+  align-items: start;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--rule);
+  font-size: 12px;
+  line-height: 1.6;
+}
+.rec-list li:last-child { border-bottom: none; }
+.rec-num {
+  font-family: var(--head);
+  font-weight: 800;
+  font-size: 11px;
+  color: var(--red);
+  padding-top: 1px;
+}
+.rec-tag {
+  font-family: var(--head);
+  font-weight: 700;
+  font-size: 10px;
+  background: var(--ink);
+  color: var(--paper);
+  padding: 1px 6px;
+  display: inline-block;
+  margin-bottom: 3px;
+  letter-spacing: 0.08em;
+}
+
+/* ── FOOTER ── */
+.doc-footer {
+  margin-top: 56px;
+  padding-top: 16px;
+  border-top: 2px solid var(--ink);
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: rgba(13,15,20,0.45);
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.doc-footer strong { color: var(--ink); }
+
+/* ── SOURCES ── */
+.sources {
+  font-size: 10.5px;
+  color: rgba(13,15,20,0.55);
+  line-height: 1.6;
+  padding: 16px 0;
+  border-top: 1px solid var(--rule);
+  margin-top: 32px;
+}
+.sources strong {
+  font-family: var(--head);
+  font-weight: 700;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 8px;
+  color: var(--ink);
+}
+.src-item { margin-bottom: 4px; }
+
+/* ── SEVERITY CHIP ── */
+.sev { font-family: var(--head); font-weight: 700; font-size: 11px; padding: 3px 8px; }
+.sev-high { background: var(--red); color: #fff; }
+.sev-med  { background: var(--amber); color: #fff; }
+
+@media print {
+  body { padding: 24px; font-size: 12px; }
+  .doc-title { font-size: 28px; }
+}
+</style>
+</head>
+<body>
+
+<div class="banner">⚠ UNCLASSIFIED // TLP: CLEAR // FOR EDUCATIONAL & PORTFOLIO USE ONLY ⚠</div>
+
+<!-- DOCUMENT HEADER -->
+<header class="doc-header">
+  <div class="tlp-row">
+    <div>
+      <span class="tlp-badge tlp-white">TLP:CLEAR</span>
+    </div>
+    <div class="report-id">
+      <span class="meta-label">Report ID</span>
+      TI-RPT-2026-001
+    </div>
+  </div>
+
+  <h1 class="doc-title">Mustang Panda / TA416:<br>PlugX Diplomatic Espionage<br>Campaign — Q1 2026</h1>
+  <p class="doc-subtitle">Tactical Threat Intelligence Report · PRC-Nexus Actor Cluster</p>
+
+  <div class="meta-row">
+    <div class="meta-item">
+      <span class="meta-label">Published</span>
+      <span class="meta-val">21 April 2026</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Author</span>
+      <span class="meta-val">Junior CTI Analyst</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Severity</span>
+      <span class="sev sev-high">HIGH</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Confidence</span>
+      <span class="meta-val">A-2 (Reliable Source, Probably True)</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Sector Focus</span>
+      <span class="meta-val">Government · Diplomatic · Energy</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Geography</span>
+      <span class="meta-val">SEA · EU · Middle East</span>
+    </div>
+  </div>
+</header>
+
+<!-- EXECUTIVE SUMMARY -->
+<div class="exec-box">
+  <p>A cluster of PRC-aligned threat actors — tracked under the overlapping monikers Mustang Panda, TA416, UNC6384, and RedDelta — conducted a sustained multi-theatre espionage campaign between December 2025 and April 2026. The campaign targeted diplomatic, governmental, and critical infrastructure entities across Southeast Asia, Europe, and the Middle East using updated variants of the PlugX backdoor (SOGU.SEC). Infection chains evolved rapidly, cycling through adversary-in-the-middle (AitM) captive-portal hijacks, OAuth redirect abuse, MSBuild-based DLL side-loading, and malicious Windows shortcut (.LNK) lures. Active C2 infrastructure has been identified on ASN 149440 (Evoxt Enterprise) behind Cloudflare origin masking. 14 domains assessed to be part of ongoing staging infrastructure were identified, the majority previously unreported. Defenders should treat any .LNK or .CHM delivery associated with fake plugin update themes as high-confidence PlugX delivery attempts.</p>
+</div>
+
+<!-- SECTION 1: DIAMOND MODEL -->
+<div class="section">
+  <div class="sec-label">01 · Framework</div>
+  <div class="sec-title">Diamond Model of Intrusion</div>
+</div>
+
+<div class="diamond-wrap">
+  <div class="diamond-grid">
+    <div class="d-cell d-adversary">
+      <div>
+        <div class="d-meta">ADVERSARY</div>
+        <div class="d-sub">Mustang Panda / TA416<br>UNC6384 / RedDelta<br>PRC-nexus, active since 2012</div>
+      </div>
+    </div>
+    <div class="d-cell d-infra">
+      <div>
+        <div class="d-meta">INFRASTRUCTURE</div>
+        <div class="d-sub">ASN 149440 (Evoxt)<br>Cloudflare origin mask<br>NameCheap / NameSilo<br>Expired domain re-reg</div>
+      </div>
+    </div>
+    <div class="d-cell d-arrow-h">◆</div>
+    <div class="d-cell d-capability">
+      <div>
+        <div class="d-meta">CAPABILITY</div>
+        <div class="d-sub">PlugX / SOGU.SEC<br>STATICPLUGIN<br>CANONSTAGER<br>RC4 encrypted C2</div>
+      </div>
+    </div>
+    <div class="d-cell d-victim">
+      <div>
+        <div class="d-meta">VICTIM</div>
+        <div class="d-sub">Diplomatic entities<br>Govt ministries<br>Energy sector<br>SEA · EU · ME</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 2: KILL CHAIN -->
+<div class="section">
+  <div class="sec-label">02 · Framework</div>
+  <div class="sec-title">Lockheed Martin Kill Chain Mapping</div>
+</div>
+
+<div class="kc-grid">
+  <div class="kc-cell active">
+    <span class="kc-phase">Recon</span>
+    <span class="kc-detail">Target diplomat/ministry profiling. Tracking pixel web bugs in spearphish to confirm live targets via IP/UA harvest</span>
+  </div>
+  <div class="kc-cell active">
+    <span class="kc-phase">Weaponise</span>
+    <span class="kc-detail">Crafts .LNK lures as "U.S. diplomatic briefings", CHM files, MSI disguised as media. RC4-encrypted PlugX payload</span>
+  </div>
+  <div class="kc-cell active">
+    <span class="kc-phase">Deliver</span>
+    <span class="kc-detail">AitM captive portal hijack, OAuth URL redirect, spearphish ZIP archives, MSBuild execution via GData DLL sideload</span>
+  </div>
+  <div class="kc-cell active">
+    <span class="kc-phase">Exploit</span>
+    <span class="kc-detail">ZDI-CAN-25373 .LNK zero-day, UAC bypass (Fodhelper), DLL side-loading via signed Canon executable</span>
+  </div>
+  <div class="kc-cell active">
+    <span class="kc-phase">Install</span>
+    <span class="kc-detail">CANONSTAGER injects PlugX entirely in-memory into cnmpaui.exe. Registry Run Key persistence (BaiNetdisk)</span>
+  </div>
+  <div class="kc-cell active">
+    <span class="kc-phase">C2</span>
+    <span class="kc-detail">HTTPS port 443. DNS-over-HTTPS (dns.google) for domain resolution. Internal proxy relay via PlugX module</span>
+  </div>
+  <div class="kc-cell active">
+    <span class="kc-phase">Actions</span>
+    <span class="kc-detail">File collection (*.doc*, *.pdf*). System fingerprinting. Long-term persistent espionage access</span>
+  </div>
+</div>
+
+<!-- SECTION 3: INFECTION CHAIN -->
+<div class="section">
+  <div class="sec-label">03 · Technical Analysis</div>
+  <div class="sec-title">Infection Chain Detail</div>
+</div>
+
+<p>The campaign demonstrated exceptional operational flexibility, deploying at least three distinct delivery variants during Q1 2026 against different target sets. The core payload — PlugX / SOGU.SEC — remained constant, while the delivery mechanism evolved to evade detection and adapt to target environments.</p>
+
+<div class="chain-steps">
+
+  <div class="chain-step">
+    <div class="chain-num">01</div>
+    <div class="chain-body">
+      <div class="chain-title">Initial Access: AitM Captive Portal Hijack</div>
+      <div class="chain-desc">The target's browser performs a captive portal connectivity check. Compromised edge devices on the victim network intercept the request and redirect to a threat-actor controlled landing page served over HTTPS with a valid Let's Encrypt TLS certificate. The page impersonates a legitimate software update site.</div>
+      <span class="chain-tech">T1557 — AitM</span>
+      <span class="chain-tech">T1566.002 — Spearphish Link</span>
+      <span class="chain-tech">T1189 — Drive-by Compromise</span>
+    </div>
+  </div>
+
+  <div class="chain-step">
+    <div class="chain-num">02</div>
+    <div class="chain-body">
+      <div class="chain-title">Delivery Variant B: OAuth URL Redirect Abuse</div>
+      <div class="chain-desc">Phishing emails link to Microsoft's legitimate OAuth authorization endpoint (login.microsoftonline.com). When clicked, the OAuth flow redirects to an attacker-controlled domain and downloads a malicious archive. Legitimate OAuth URLs bypass conventional phishing defenses that blocklist known-bad links.</div>
+      <span class="chain-tech">T1566.001 — Spearphish Attachment</span>
+      <span class="chain-tech">T1550.001 — Token Impersonation</span>
+    </div>
+  </div>
+
+  <div class="chain-step">
+    <div class="chain-num">03</div>
+    <div class="chain-body">
+      <div class="chain-title">Delivery Variant C: Malicious .LNK / CHM</div>
+      <div class="chain-desc">ZIP archives containing Windows shortcut (.LNK) files impersonating PDF documents (e.g., photo_2026-03-01_01-20-48.pdf.lnk) are delivered by email. The LNK exploits ZDI-CAN-25373 for code execution without user interaction beyond double-click. CHM variants also observed in Middle East-targeting activity with Arabic-language missile-attack lures.</div>
+      <span class="chain-tech">T1036.007 — Double Extension Masquerade</span>
+      <span class="chain-tech">T1218.001 — CHM Execution</span>
+    </div>
+  </div>
+
+  <div class="chain-step">
+    <div class="chain-num">04</div>
+    <div class="chain-body">
+      <div class="chain-title">Staging: STATICPLUGIN Downloader</div>
+      <div class="chain-desc">AdobePlugins.exe — a digitally signed first-stage downloader signed by "Chengdu Nuoxin Times Technology Co., Ltd" (GlobalSign cert) — retrieves an MSI package disguised as media content. At least 25 malware samples share this code-signing certificate across related activity.</div>
+      <span class="chain-tech">T1553.002 — Code Signing</span>
+      <span class="chain-tech">T1027 — Obfuscated Files</span>
+    </div>
+  </div>
+
+  <div class="chain-step">
+    <div class="chain-num">05</div>
+    <div class="chain-body">
+      <div class="chain-title">DLL Side-Loading: CANONSTAGER via cnmpaui.exe</div>
+      <div class="chain-desc">The MSI installs components into %AppData%\BaiduNetdisk mimicking a legitimate cloud app. CANONSTAGER is side-loaded by the legitimate signed Canon IJ Printer Assistant Tool (cnmpaui.exe). CANONSTAGER uses API hashing and Thread Local Storage for function pointers to avoid behavioural detection, then decrypts cnmplog.dat (RC4, 16-byte key: eQkiwoiuDsvIPsmd) and injects PlugX into cnmpaui.exe's memory.</div>
+      <span class="chain-tech">T1574.002 — DLL Side-Loading</span>
+      <span class="chain-tech">T1055.001 — Process Injection</span>
+      <span class="chain-tech">T1140 — Deobfuscate</span>
+    </div>
+  </div>
+
+  <div class="chain-step">
+    <div class="chain-num">06</div>
+    <div class="chain-body">
+      <div class="chain-title">Persistence & Privilege Escalation</div>
+      <div class="chain-desc">A Registry Run Key named "BaiNetdisk" pointing to the malicious ShellFolder.exe is created via reg.exe or RegSetValueExA. PlugX contains Fodhelper UAC bypass logic to gain elevated privileges. The payload can additionally register as a Windows Service ("Microsoft Desktop Dialog Broker").</div>
+      <span class="chain-tech">T1547.001 — Run Key Persistence</span>
+      <span class="chain-tech">T1543.003 — Create/Modify Service</span>
+      <span class="chain-tech">T1548.002 — Fodhelper UAC Bypass</span>
+    </div>
+  </div>
+
+  <div class="chain-step">
+    <div class="chain-num">07</div>
+    <div class="chain-body">
+      <div class="chain-title">C2 Communications</div>
+      <div class="chain-desc">PlugX establishes HTTPS C2 on port 443 to infrastructure on ASN 149440. DNS-over-HTTPS (via dns.google) resolves C2 domains to evade network-layer blocking. Active services also observed on ports 3389 (RDP) and 5985 (WinRM) on C2 IPs. Cloudflare acts as a reverse proxy, masking the true origin IP. JA4x TLS fingerprint: dc020972a4a8_9fb583da09a2_fb02ba79e164.</div>
+      <span class="chain-tech">T1071.001 — Web Protocols</span>
+      <span class="chain-tech">T1572 — Protocol Tunneling (DoH)</span>
+      <span class="chain-tech">T1090.001 — Internal Proxy</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- SECTION 4: TTP MATRIX -->
+<div class="section">
+  <div class="sec-label">04 · ATT&amp;CK Mapping</div>
+  <div class="sec-title">MITRE ATT&amp;CK Techniques</div>
+</div>
+
+<div class="ttp-grid">
+  <div class="ttp-card">
+    <div class="ttp-id">T1566.001 / T1566.002</div>
+    <div class="ttp-name">Spearphishing</div>
+    <div class="ttp-desc">Attachment-based (ZIP/LNK/CHM) and link-based (OAuth redirect) phishing against diplomatic targets. Lures impersonate U.S. diplomatic summaries and foreign ministry communications.</div>
+  </div>
+  <div class="ttp-card">
+    <div class="ttp-id">T1574.002</div>
+    <div class="ttp-name">DLL Side-Loading</div>
+    <div class="ttp-desc">Abuses legitimate signed Canon printer executable (cnmpaui.exe) to load CANONSTAGER. Common across all three actor clusters. Also observed with GData DLL sideloading variant.</div>
+  </div>
+  <div class="ttp-card">
+    <div class="ttp-id">T1055.001</div>
+    <div class="ttp-name">In-Memory Process Injection</div>
+    <div class="ttp-desc">CANONSTAGER injects the PlugX payload entirely in-memory into a trusted, signed process. No payload dropped to disk post-injection — evades file-based detection entirely.</div>
+  </div>
+  <div class="ttp-card">
+    <div class="ttp-id">T1553.002</div>
+    <div class="ttp-name">Code Signing Abuse</div>
+    <div class="ttp-desc">First-stage downloader signed with GlobalSign cert issued to "Chengdu Nuoxin Times Technology Co., Ltd." At least 25 samples share this certificate across the cluster.</div>
+  </div>
+  <div class="ttp-card">
+    <div class="ttp-id">T1572 / T1071.001</div>
+    <div class="ttp-name">Protocol Tunneling &amp; C2</div>
+    <div class="ttp-desc">C2 over HTTPS port 443. DNS-over-HTTPS (dns.google) used for C2 domain resolution — bypasses both DNS-layer monitoring and blocklists. Internal proxy relay between victims.</div>
+  </div>
+  <div class="ttp-card">
+    <div class="ttp-id">T1548.002</div>
+    <div class="ttp-name">Fodhelper UAC Bypass</div>
+    <div class="ttp-desc">Classic UAC bypass via fodhelper.exe for privilege escalation to SYSTEM. Allows PlugX to install as a service and maintain elevated persistence without triggering UAC prompts.</div>
+  </div>
+  <div class="ttp-card">
+    <div class="ttp-id">T1027.016</div>
+    <div class="ttp-name">Mixed Boolean Arithmetic Obfuscation</div>
+    <div class="ttp-desc">PlugX variant employs control flow flattening and mixed boolean arithmetic (MBA) to complicate static and dynamic analysis. Junk code insertion further obscures logic.</div>
+  </div>
+  <div class="ttp-card">
+    <div class="ttp-id">T1213 / T1083</div>
+    <div class="ttp-name">Data Collection</div>
+    <div class="ttp-desc">PlugX Disk plugin searches for documents matching *.doc*, *.pdf* extensions. System fingerprint command harvests OS version, hardware, and checks for Bitdefender (bdagent.exe) presence.</div>
+  </div>
+</div>
+
+<!-- SECTION 5: IOC TABLE -->
+<div class="section">
+  <div class="sec-label">05 · Indicators of Compromise</div>
+  <div class="sec-title">IOC Table — Admiralty Rated</div>
+</div>
+
+<p style="font-size:11px; color:rgba(13,15,20,0.55); margin-bottom:12px;">Admiralty Source Ratings: A=Completely reliable, B=Usually reliable. Information Ratings: 1=Confirmed, 2=Probably true, 3=Possibly true. Treat all IPs as potentially shared hosting — enrich before blocking.</p>
+
+<table class="ioc-table">
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Indicator</th>
+      <th>Context</th>
+      <th>Conf.</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>IP</td>
+      <td>108.165.255[.]97</td>
+      <td>PlugX C2 — active ports 443/3389/5985. ASN 149440 (Evoxt Enterprise). Starting pivot point. Source: CyberAndRamen/Hunt.io</td>
+      <td><span class="conf-badge conf-a2">A-2</span></td>
+    </tr>
+    <tr>
+      <td>Domain</td>
+      <td>fruitbrat[.]com</td>
+      <td>PlugX staging domain. NameCheap-registered, Cloudflare TLS cert provisioned mid-Jan 2026. Operational by Feb 6 2026.</td>
+      <td><span class="conf-badge conf-a2">A-2</span></td>
+    </tr>
+    <tr>
+      <td>Domain</td>
+      <td>decoraat[.]net</td>
+      <td>Alternate C2 — MSBuild/GData DLL sideload infection chain. Lab52 corroboration.</td>
+      <td><span class="conf-badge conf-a2">A-2</span></td>
+    </tr>
+    <tr>
+      <td>SHA1</td>
+      <td>20eb9f216a1177ee539a012e6301a93e43c36b06</td>
+      <td>photo_2026-03-01_01-20-48.zip — ZIP archive delivering malicious LNK (Middle East campaign). Zscaler ThreatLabz.</td>
+      <td><span class="conf-badge conf-a1">A-1</span></td>
+    </tr>
+    <tr>
+      <td>SHA256</td>
+      <td>573aeadabb55fd46c55a68c41a16ecc773...f2e14442</td>
+      <td>Malicious LNK file within ZIP. Double-extension masquerade as PDF. Exploits ZDI-CAN-25373.</td>
+      <td><span class="conf-badge conf-a1">A-1</span></td>
+    </tr>
+    <tr>
+      <td>Filename</td>
+      <td>photo_2026-03-01_01-20-48.pdf.lnk</td>
+      <td>Double-extension .LNK lure. Masquerades as benign photo/PDF. Drops components into %AppData%\BaiduNetdisk.</td>
+      <td><span class="conf-badge conf-a1">A-1</span></td>
+    </tr>
+    <tr>
+      <td>Filename</td>
+      <td>AdobePlugins.exe / cnmpaui.exe</td>
+      <td>STATICPLUGIN downloader (signed). cnmpaui.exe = legitimate Canon executable abused for DLL side-loading of CANONSTAGER.</td>
+      <td><span class="conf-badge conf-a1">A-1</span></td>
+    </tr>
+    <tr>
+      <td>Filename</td>
+      <td>cnmplog.dat</td>
+      <td>RC4-encrypted PlugX payload on disk. Key: eQkiwoiuDsvIPsmd (16 bytes). Decrypted and injected in-memory by CANONSTAGER.</td>
+      <td><span class="conf-badge conf-a1">A-1</span></td>
+    </tr>
+    <tr>
+      <td>Registry</td>
+      <td>HKCU\Software\Microsoft\Windows\CurrentVersion\Run\BaiNetdisk</td>
+      <td>Persistence Run Key. Points to malicious ShellFolder.exe. Created via reg.exe or RegSetValueExA.</td>
+      <td><span class="conf-badge conf-a1">A-1</span></td>
+    </tr>
+    <tr>
+      <td>TLS Fingerprint</td>
+      <td>JA4x: dc020972a4a8_9fb583da09a2_fb02ba79e164</td>
+      <td>Reliable C2 server fingerprint across ASN 149440 infrastructure. Query: asn="149440" AND nginx/1.26.3 or 1.28.0 AND port=443.</td>
+      <td><span class="conf-badge conf-b2">B-2</span></td>
+    </tr>
+    <tr>
+      <td>Code-Signing Cert</td>
+      <td>Chengdu Nuoxin Times Technology Co., Ltd (GlobalSign)</td>
+      <td>Shared across ≥25 malware samples in this cluster. Any binary signed by this entity should be treated as high-confidence malicious.</td>
+      <td><span class="conf-badge conf-a1">A-1</span></td>
+    </tr>
+    <tr>
+      <td>ASN</td>
+      <td>ASN 149440 — Evoxt Enterprise</td>
+      <td>Preferred VPS provider for staging before Cloudflare masking applied. Consistent across multiple domains in this cluster.</td>
+      <td><span class="conf-badge conf-b2">B-2</span></td>
+    </tr>
+    <tr>
+      <td>Domain</td>
+      <td>mcstorsolution[.]it[.]com</td>
+      <td>Suspicious C2-related domain. Tagged osx_atomic — possible macOS detection context. CIRCL OSINT Feed, Feb 2026.</td>
+      <td><span class="conf-badge conf-b3">B-3</span></td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- SECTION 6: SIGMA RULE -->
+<div class="section">
+  <div class="sec-label">06 · Detection</div>
+  <div class="sec-title">Sigma Detection Rule</div>
+</div>
+
+<p>The following Sigma rule targets the CANONSTAGER persistence mechanism — the BaiNetdisk Run Key — and the Canon executable side-loading pattern. This is a high-confidence detection with low expected false-positive rate on enterprise endpoints.</p>
+
+<div class="code-block"><span class="c">title</span><span class="k">:</span> <span class="s">Mustang Panda PlugX Persistence via BaiNetdisk Run Key</span>
+<span class="c">id</span><span class="k">:</span> <span class="s">a7f3c2d1-88e4-4b9a-bc01-f29d3e7a6510</span>
+<span class="c">status</span><span class="k">:</span> <span class="s">experimental</span>
+<span class="c">description</span><span class="k">:</span> <span class="s">Detects PlugX (SOGU.SEC) persistence as deployed by Mustang Panda</span>
+<span class="c">          </span><span class="s">/ TA416 / UNC6384 in Q1 2026 campaigns. The malware creates a</span>
+<span class="c">          </span><span class="s">Registry Run Key named BaiNetdisk pointing to ShellFolder.exe.</span>
+<span class="c">references</span><span class="k">:</span>
+  <span class="k">-</span> <span class="s">https://cyberandramen.net/2026/03/02/before-the-proxy-uncovering...</span>
+  <span class="k">-</span> <span class="s">https://jacksonholdingcompany.com/china-nexus-threat-actor-plugx</span>
+<span class="c">author</span><span class="k">:</span> <span class="s">Junior CTI Analyst (Portfolio Report TI-RPT-2026-001)</span>
+<span class="c">date</span><span class="k">:</span> <span class="s">2026-04-21</span>
+<span class="c">tags</span><span class="k">:</span>
+  <span class="k">-</span> <span class="s">attack.persistence</span>
+  <span class="k">-</span> <span class="s">attack.t1547.001</span>
+  <span class="k">-</span> <span class="s">attack.t1574.002</span>
+  <span class="k">-</span> <span class="s">detection.emerging_threats</span>
+<span class="c">logsource</span><span class="k">:</span>
+  <span class="c">  category</span><span class="k">:</span> <span class="s">registry_set</span>
+  <span class="c">  product</span><span class="k">:</span> <span class="s">windows</span>
+<span class="c">detection</span><span class="k">:</span>
+  <span class="c">  selection_runkey</span><span class="k">:</span>
+    <span class="c">    TargetObject|contains</span><span class="k">:</span>
+      <span class="k">-</span> <span class="s">'\CurrentVersion\Run\BaiNetdisk'</span>
+    <span class="c">    Details|contains</span><span class="k">:</span>
+      <span class="k">-</span> <span class="s">'ShellFolder.exe'</span>
+      <span class="k">-</span> <span class="s">'BaiduNetdisk'</span>
+  <span class="c">  selection_sideload</span><span class="k">:</span>
+    <span class="c">    EventID</span><span class="k">:</span> <span class="s">7</span>
+    <span class="c">    Image|endswith</span><span class="k">:</span> <span class="s">'\cnmpaui.exe'</span>
+    <span class="c">    ImageLoaded|endswith</span><span class="k">:</span>
+      <span class="k">-</span> <span class="s">'\ShellFolderDepend.dll'</span>
+      <span class="k">-</span> <span class="s">'\cnmplog.dat'</span>
+  <span class="c">  selection_lnk</span><span class="k">:</span>
+    <span class="c">    EventID</span><span class="k">:</span> <span class="s">4688</span>
+    <span class="c">    CommandLine|contains|all</span><span class="k">:</span>
+      <span class="k">-</span> <span class="s">'.pdf.lnk'</span>
+      <span class="k">-</span> <span class="s">'BaiduNetdisk'</span>
+  <span class="c">  condition</span><span class="k">:</span> <span class="s">1 of selection_*</span>
+<span class="c">falsepositives</span><span class="k">:</span>
+  <span class="k">-</span> <span class="s">Legitimate Baidu Netdisk installation (verify path and binary hash)</span>
+  <span class="k">-</span> <span class="s">Canon printer software updates (verify ImageLoaded hash)</span>
+<span class="c">level</span><span class="k">:</span> <span class="s">high</span>
+</div>
+
+<!-- SECTION 7: RECOMMENDATIONS -->
+<div class="section">
+  <div class="sec-label">07 · Mitigation</div>
+  <div class="sec-title">Actionable Recommendations</div>
+</div>
+
+<ul class="rec-list">
+  <li>
+    <span class="rec-num">1</span>
+    <div>
+      <span class="rec-tag">IMMEDIATE — Block</span><br>
+      Block or alert on outbound connections to ASN 149440 (Evoxt Enterprise) on ports 443/3389/5985. Enrich the 14 C2 domains in the cluster before hard-blocking due to possible Cloudflare shared hosting. IP 108.165.255[.]97 should be blocked immediately — dedicated threat actor VPS confirmed.
+    </div>
+  </li>
+  <li>
+    <span class="rec-num">2</span>
+    <div>
+      <span class="rec-tag">IMMEDIATE — Hunt</span><br>
+      Search endpoint logs for the BaiNetdisk Run Key (HKCU\...\Run\BaiNetdisk) and any execution of cnmpaui.exe loading non-Canon DLLs. Search for the filename cnmplog.dat anywhere on the filesystem. These are high-fidelity, low-noise hunt queries.
+    </div>
+  </li>
+  <li>
+    <span class="rec-num">3</span>
+    <div>
+      <span class="rec-tag">SHORT-TERM — Detection</span><br>
+      Deploy the Sigma rule from Section 06 in your SIEM. Additionally, create a DNS query alert for any internal host resolving via dns.google (8.8.8.8 / 8.8.4.4) on port 443 — this is the DoH C2 channel. Legitimate use of DoH should be centrally managed, not client-initiated.
+    </div>
+  </li>
+  <li>
+    <span class="rec-num">4</span>
+    <div>
+      <span class="rec-tag">SHORT-TERM — Email</span><br>
+      Implement email gateway rules to quarantine ZIP attachments containing .LNK files, and CHM files from untrusted senders. Specifically flag double-extension patterns (*.pdf.lnk). Block or sandbox OAuth redirect links traversing microsoft OAuth endpoints that redirect to non-Microsoft domains.
+    </div>
+  </li>
+  <li>
+    <span class="rec-num">5</span>
+    <div>
+      <span class="rec-tag">SHORT-TERM — Policy</span><br>
+      Disable CHM/HTA execution via AppLocker or WDAC for standard users. Enforce UAC on Secure Desktop (prevents Fodhelper bypass). Review and audit all services named "Microsoft Desktop Dialog Broker" — this is a known PlugX service masquerade name.
+    </div>
+  </li>
+  <li>
+    <span class="rec-num">6</span>
+    <div>
+      <span class="rec-tag">MEDIUM-TERM — Awareness</span><br>
+      Brief diplomatic and government staff on lures impersonating U.S. diplomatic briefings and foreign ministry documents. The campaign specifically exploits the authority of U.S. attribution in diplomatic contexts — a social engineering angle unique to this actor cluster. Add geopolitical conflict lures (Middle East, Taiwan) to awareness training.
+    </div>
+  </li>
+  <li>
+    <span class="rec-num">7</span>
+    <div>
+      <span class="rec-tag">MEDIUM-TERM — Architecture</span><br>
+      Implement TLS inspection for outbound HTTPS on all critical assets to detect C2 communications masked by valid certificates. Deploy a centrally-managed DoH resolver and block direct DoH from endpoints. Monitor and alert on the JA4x fingerprint dc020972a4a8_9fb583da09a2_fb02ba79e164 in network logs.
+    </div>
+  </li>
+  <li>
+    <span class="rec-num">8</span>
+    <div>
+      <span class="rec-tag">ONGOING — Intel</span><br>
+      Subscribe to and ingest ThreatFox and Feodo Tracker feeds into your MISP/SIEM for continuous IOC updates on this cluster. Track the NameCheap + NameSilo + ASN 149440 + nginx/1.26.3 or 1.28.0 + Cloudflare pattern as a reliable infrastructure fingerprint — new domains will follow the same procurement pattern.
+    </div>
+  </li>
+</ul>
+
+<!-- SOURCES -->
+<div class="sources">
+  <strong>Sources & References</strong>
+  <div class="src-item">[1] CyberAndRamen (Mar 2 2026) — "Before the Proxy: Uncovering Active PlugX Staging Infrastructure Linked to Three PRC Actors" — cyberandramen.net</div>
+  <div class="src-item">[2] Zscaler ThreatLabz (Mar 2026) — "China-nexus Threat Actor Targets Persian Gulf Region With PlugX" — zscaler.com/blogs</div>
+  <div class="src-item">[3] Google Threat Intelligence Group (Aug 2025) — "PRC-Nexus Espionage Campaign Hijacks Web Traffic to Target Diplomats" — cloud.google.com/blog</div>
+  <div class="src-item">[4] Dream Security (Feb 5 2026) — "PlugX Diplomacy: Mustang Panda Campaign" — dreamgroup.com</div>
+  <div class="src-item">[5] The Hacker News / Proofpoint (Apr 2026) — "China-Linked TA416 Targets European Governments with PlugX and OAuth-Based Phishing"</div>
+  <div class="src-item">[6] Picus Security (2025) — "UNC6384's 2025 PlugX Campaign Explained" — picussecurity.com</div>
+  <div class="src-item">[7] Recorded Future Insikt Group (Jan 2025) — RedDelta PlugX deployment patterns, Taiwan/Mongolia/SEA targeting</div>
+</div>
+
+<!-- FOOTER -->
+<footer class="doc-footer">
+  <div>
+    <strong>TI-RPT-2026-001</strong> · Mustang Panda / TA416 · PlugX Campaign Q1 2026
+  </div>
+  <div>
+    TLP:CLEAR · Published 21 April 2026 · Portfolio Report · Educational Use
+  </div>
+</footer>
+
+</body>
+</html>

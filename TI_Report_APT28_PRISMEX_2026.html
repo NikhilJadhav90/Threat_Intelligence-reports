@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TI Report — APT28 PRISMEX Campaign 2026</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&family=Syne+Mono&display=swap');
+
+:root {
+  --ink: #0d0f14;
+  --paper: #f5f0e8;
+  --paper2: #ede7d9;
+  --paper3: #e0d9c8;
+  --red: #c0392b;
+  --red-dim: #8b2020;
+  --amber: #b8541a;
+  --green: #1a6b3c;
+  --blue: #1a3a6b;
+  --rule: rgba(13,15,20,0.15);
+  --mono: 'Space Mono', monospace;
+  --head: 'Syne', sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 13px;
+  line-height: 1.7;
+  min-height: 100vh;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 48px 32px 80px;
+}
+
+/* ── TOP BANNER ── */
+.banner {
+  background: var(--red);
+  color: #fff;
+  font-family: var(--head);
+  font-weight: 800;
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  text-align: center;
+  padding: 8px 0;
+  margin-bottom: 40px;
+}
+
+/* ── HEADER ── */
+.doc-header {
+  border-top: 3px solid var(--ink);
+  border-bottom: 1px solid var(--ink);
+  padding: 24px 0 20px;
+  margin-bottom: 32px;
+}
+.tlp-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+.tlp-badge {
+  font-family: var(--head);
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  padding: 4px 10px;
+  border: 1.5px solid var(--ink);
+}
+.tlp-white { background: #fff; }
+.report-id {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: rgba(13,15,20,0.5);
+  text-align: right;
+}
+.doc-title {
+  font-family: var(--head);
+  font-size: 36px;
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+}
+.doc-subtitle {
+  font-size: 13px;
+  color: rgba(13,15,20,0.6);
+  font-family: var(--head);
+  font-weight: 400;
+}
+.meta-row {
+  display: flex;
+  gap: 32px;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--rule);
+  flex-wrap: wrap;
+}
+.meta-item {
+  font-size: 11px;
+  font-family: var(--mono);
+}
+.meta-label {
+  color: rgba(13,15,20,0.45);
+  display: block;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 2px;
+  font-size: 10px;
+}
+.meta-val { font-weight: 700; }
+
+/* ── EXECUTIVE SUMMARY BOX ── */
+.exec-box {
+  background: var(--ink);
+  color: var(--paper);
+  padding: 24px 28px;
+  margin: 32px 0;
+  position: relative;
+}
+.exec-box::before {
+  content: 'EXECUTIVE SUMMARY';
+  font-family: var(--head);
+  font-weight: 800;
+  font-size: 9px;
+  letter-spacing: 0.25em;
+  color: rgba(245,240,232,0.4);
+  display: block;
+  margin-bottom: 12px;
+}
+.exec-box p {
+  font-size: 13.5px;
+  line-height: 1.75;
+  color: rgba(245,240,232,0.9);
+}
+
+/* ── SECTION HEADS ── */
+.section {
+  margin: 40px 0 24px;
+}
+.sec-label {
+  font-family: var(--head);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(13,15,20,0.35);
+  margin-bottom: 4px;
+}
+.sec-title {
+  font-family: var(--head);
+  font-size: 20px;
+  font-weight: 800;
+  border-bottom: 2px solid var(--ink);
+  padding-bottom: 8px;
+}
+
+/* ── PROSE ── */
+p { margin-bottom: 14px; }
+p:last-child { margin-bottom: 0; }
+
+/* ── KILL CHAIN TABLE ── */
+.kc-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  margin: 24px 0;
+  font-size: 10px;
+}
+.kc-cell {
+  background: var(--paper2);
+  border: 1px solid var(--rule);
+  padding: 10px 6px;
+  text-align: center;
+}
+.kc-phase {
+  font-family: var(--head);
+  font-weight: 700;
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(13,15,20,0.5);
+  margin-bottom: 6px;
+  display: block;
+}
+.kc-detail {
+  font-size: 10px;
+  line-height: 1.45;
+  color: var(--ink);
+}
+.kc-cell.active {
+  background: var(--ink);
+  border-color: var(--ink);
+}
+.kc-cell.active .kc-phase,
+.kc-cell.active .kc-detail {
+  color: var(--paper);
+}
+.kc-cell.active .kc-phase { color: rgba(245,240,232,0.55); }
+
+/* ── ATTACK CHAIN ── */
+.chain-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: 20px 0;
+  border-left: 2px solid var(--ink);
+}
+.chain-step {
+  display: flex;
+  gap: 20px;
+  padding: 16px 0 16px 20px;
+  position: relative;
+  border-bottom: 1px solid var(--rule);
+}
+.chain-step:last-child { border-bottom: none; }
+.chain-num {
+  font-family: var(--head);
+  font-weight: 800;
+  font-size: 28px;
+  color: var(--rule);
+  line-height: 1;
+  min-width: 32px;
+  flex-shrink: 0;
+}
+.chain-body {}
+.chain-title {
+  font-family: var(--head);
+  font-weight: 700;
+  font-size: 13px;
+  margin-bottom: 4px;
+}
+.chain-desc {
+  font-size: 12px;
+  color: rgba(13,15,20,0.65);
+  margin-bottom: 6px;
+}
+.chain-tech {
+  font-size: 10px;
+  font-family: var(--mono);
+  background: var(--paper2);
+  display: inline-block;
+  padding: 2px 6px;
+  border: 1px solid var(--rule);
+  margin-right: 4px;
+  margin-bottom: 2px;
+}
+
+/* ── IOC TABLE ── */
+.ioc-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11px;
+  margin: 20px 0;
+}
+.ioc-table th {
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--head);
+  font-weight: 700;
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 8px 10px;
+  text-align: left;
+}
+.ioc-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--rule);
+  font-family: var(--mono);
+  font-size: 10.5px;
+  word-break: break-all;
+}
+.ioc-table tr:nth-child(even) td { background: var(--paper2); }
+.conf-badge {
+  font-size: 9px;
+  font-family: var(--head);
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 0;
+  letter-spacing: 0.1em;
+}
+.conf-a1 { background: var(--red); color: #fff; }
+.conf-a2 { background: var(--amber); color: #fff; }
+.conf-b2 { background: var(--green); color: #fff; }
+.conf-b3 { background: var(--blue); color: #fff; }
+
+/* ── MITRE BOXES ── */
+.ttp-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin: 20px 0;
+}
+.ttp-card {
+  border: 1px solid var(--rule);
+  padding: 12px 14px;
+  background: var(--paper2);
+}
+.ttp-id {
+  font-family: var(--head);
+  font-weight: 700;
+  font-size: 11px;
+  color: var(--red-dim);
+  letter-spacing: 0.05em;
+}
+.ttp-name {
+  font-weight: 700;
+  font-size: 12px;
+  margin: 2px 0 4px;
+  font-family: var(--head);
+}
+.ttp-desc {
+  font-size: 11px;
+  color: rgba(13,15,20,0.6);
+  line-height: 1.5;
+}
+
+/* ── SIGMA RULE ── */
+.code-block {
+  background: var(--ink);
+  color: #a8d8a8;
+  font-family: var(--mono);
+  font-size: 11px;
+  line-height: 1.6;
+  padding: 20px 22px;
+  margin: 20px 0;
+  overflow-x: auto;
+  white-space: pre;
+}
+.code-block .c { color: #6b8c6b; }
+.code-block .k { color: #e8d4a8; }
+.code-block .s { color: #a8c8e8; }
+
+/* ── SIGMA LABEL ── */
+.sigma-label {
+  font-family: var(--head);
+  font-weight: 700;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(13,15,20,0.4);
+  padding: 6px 0 2px;
+  margin-top: 16px;
+  display: block;
+}
+
+/* ── DIAMOND MODEL ── */
+.diamond-wrap {
+  display: flex;
+  justify-content: center;
+  margin: 28px 0;
+}
+.diamond-grid {
+  display: grid;
+  grid-template-columns: 180px 180px 180px;
+  grid-template-rows: 90px 90px 90px;
+  gap: 0;
+}
+.d-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  font-size: 11px;
+  text-align: center;
+}
+.d-adversary { grid-column: 2; grid-row: 1; background: var(--ink); color: var(--paper); border: 2px solid var(--ink); }
+.d-infra { grid-column: 1; grid-row: 2; background: var(--paper2); border: 1px solid var(--rule); }
+.d-capability { grid-column: 3; grid-row: 2; background: var(--paper2); border: 1px solid var(--rule); }
+.d-victim { grid-column: 2; grid-row: 3; background: var(--red); color: #fff; border: 2px solid var(--red); }
+.d-meta { font-family: var(--head); font-weight: 700; font-size: 11px; line-height: 1.3; }
+.d-sub { font-size: 10px; opacity: 0.65; margin-top: 4px; line-height: 1.4; }
+.d-arrow-h { grid-column: 2; grid-row: 2; display: flex; align-items: center; justify-content: center; font-size: 24px; color: var(--rule); }
+
+/* ── RECOMMENDATIONS ── */
+.rec-list { list-style: none; margin: 16px 0; }
+.rec-list li {
+  display: grid;
+  grid-template-columns: 24px 1fr;
+  gap: 8px;
+  align-items: start;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--rule);
+  font-size: 12px;
+  line-height: 1.6;
+}
+.rec-list li:last-child { border-bottom: none; }
+.rec-num {
+  font-family: var(--head);
+  font-weight: 800;
+  font-size: 11px;
+  color: var(--red);
+  padding-top: 1px;
+}
+.rec-tag {
+  font-family: var(--head);
+  font-weight: 700;
+  font-size: 10px;
+  background: var(--ink);
+  color: var(--paper);
+  padding: 1px 6px;
+  display: inline-block;
+  margin-bottom: 3px;
+  letter-spacing: 0.08em;
+}
+
+/* ── OPEN QUESTIONS ── */
+.oq-list { list-style: none; margin: 16px 0; }
+.oq-list li {
+  padding: 8px 0 8px 16px;
+  border-left: 3px solid var(--rule);
+  margin-bottom: 8px;
+  font-size: 12px;
+  color: rgba(13,15,20,0.75);
+}
+.oq-list li strong { color: var(--ink); font-family: var(--head); }
+
+/* ── PIVOT NOTE ── */
+.pivot-note {
+  background: var(--paper3);
+  border-left: 4px solid var(--amber);
+  padding: 14px 18px;
+  margin: 20px 0;
+  font-size: 12px;
+}
+.pivot-note strong { font-family: var(--head); font-weight: 700; display: block; margin-bottom: 4px; font-size: 11px; letter-spacing: 0.05em; }
+
+/* ── FOOTER ── */
+.doc-footer {
+  margin-top: 56px;
+  padding-top: 16px;
+  border-top: 2px solid var(--ink);
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: rgba(13,15,20,0.45);
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.doc-footer strong { color: var(--ink); }
+
+/* ── SOURCES ── */
+.sources {
+  font-size: 10.5px;
+  color: rgba(13,15,20,0.55);
+  line-height: 1.6;
+  padding: 16px 0;
+  border-top: 1px solid var(--rule);
+  margin-top: 32px;
+}
+.sources strong {
+  font-family: var(--head);
+  font-weight: 700;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 8px;
+  color: var(--ink);
+}
+.src-item { margin-bottom: 4px; }
+
+/* ── SEVERITY CHIP ── */
+.sev { font-family: var(--head); font-weight: 700; font-size: 11px; padding: 3px 8px; }
+.sev-high { background: var(--red); color: #fff; }
+.sev-med  { background: var(--amber); color: #fff; }
+
+/* ── OVERLAP TABLE ── */
+.overlap-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11px;
+  margin: 16px 0;
+}
+.overlap-table th {
+  background: var(--paper3);
+  font-family: var(--head);
+  font-weight: 700;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 7px 10px;
+  text-align: left;
+  border-bottom: 2px solid var(--ink);
+}
+.overlap-table td {
+  padding: 7px 10px;
+  border-bottom: 1px solid var(--rule);
+  font-size: 11px;
+}
+.overlap-table tr:nth-child(even) td { background: var(--paper2); }
+.shared { color: var(--green); font-weight: 700; }
+.unique { color: var(--red-dim); font-weight: 700; }
+
+@media print {
+  body { padding: 24px; font-size: 12px; }
+  .doc-title { font-size: 28px; }
+}
+</style>
+</head>
+<body>
+
+<div class="banner">⚠ UNCLASSIFIED // TLP: CLEAR // FOR EDUCATIONAL &amp; PORTFOLIO USE ONLY ⚠</div>
+
+<!-- DOCUMENT HEADER -->
+<header class="doc-header">
+  <div class="tlp-row">
+    <div>
+      <span class="tlp-badge tlp-white">TLP:CLEAR</span>
+    </div>
+    <div class="report-id">
+      <span class="meta-label">Report ID</span>
+      TI-RPT-2026-002
+    </div>
+  </div>
+
+  <h1 class="doc-title">APT28 / Pawn Storm:<br>PRISMEX Malware Suite Against<br>Ukraine &amp; NATO Infrastructure</h1>
+  <p class="doc-subtitle">Tactical Threat Intelligence Report · GRU-Aligned Actor · Independent Research</p>
+
+  <div class="meta-row">
+    <div class="meta-item">
+      <span class="meta-label">Published</span>
+      <span class="meta-val">02 May 2026</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Author</span>
+      <span class="meta-val">Junior CTI Analyst</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Severity</span>
+      <span class="sev sev-high">CRITICAL</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Confidence</span>
+      <span class="meta-val">A-1 (Reliable, Confirmed — Independent Research)</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Sector Focus</span>
+      <span class="meta-val">Defense · Logistics · NATO Infrastructure</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Geography</span>
+      <span class="meta-val">Ukraine · Poland · Romania · Czech Republic · Slovakia</span>
+    </div>
+  </div>
+</header>
+
+<!-- EXECUTIVE SUMMARY -->
+<div class="exec-box">
+  <p>APT28 (Pawn Storm / Fancy Bear / GRU-aligned) deployed a novel four-stage malware suite designated PRISMEX against Ukrainian defense supply chain targets and NATO logistics hubs across seven countries, exploiting two zero-days (CVE-2026-21509, CVE-2026-21513) with infrastructure staged 14 days before public disclosure — consistent with advance GRU access to vulnerability research. The suite's custom "Bit Plane Round Robin" steganography and abuse of legitimate cloud storage (filen[.]io) for encrypted C2 represent a significant operational leap from prior APT28 tooling. Active infrastructure confirmed across multiple ASNs includes a wiper capability observed triggering in October 2025 that deleted all user-profile data, demonstrating this campaign carries sabotage — not merely espionage — intent.</p>
+</div>
+
+<!-- SECTION 1: DIAMOND MODEL -->
+<div class="section">
+  <div class="sec-label">01 · Framework</div>
+  <div class="sec-title">Diamond Model of Intrusion</div>
+</div>
+
+<div class="diamond-wrap">
+  <div class="diamond-grid">
+    <div class="d-cell d-adversary">
+      <div>
+        <div class="d-meta">ADVERSARY</div>
+        <div class="d-sub">APT28 / Pawn Storm<br>Fancy Bear / Forest Blizzard<br>GRU-aligned, active since 2004</div>
+      </div>
+    </div>
+    <div class="d-cell d-infra">
+      <div>
+        <div class="d-meta">INFRASTRUCTURE</div>
+        <div class="d-sub">wellnesscaremed[.]com<br>filen[.]io (abused)<br>M247 / Hivelocity / Hostinger VPS<br>Backup: chickenkiller[.]com</div>
+      </div>
+    </div>
+    <div class="d-cell d-arrow-h">◆</div>
+    <div class="d-cell d-capability">
+      <div>
+        <div class="d-meta">CAPABILITY</div>
+        <div class="d-sub">PRISMEX Suite<br>CVE-2026-21509 / 21513<br>Covenant Grunt C2<br>Wiper + Espionage</div>
+      </div>
+    </div>
+    <div class="d-cell d-victim">
+      <div>
+        <div class="d-meta">VICTIM</div>
+        <div class="d-sub">Ukraine defense supply chain<br>NATO logistics hubs<br>7 countries (Poland, Romania,<br>Czech, Slovak + allies)</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 2: KILL CHAIN -->
+<div class="section">
+  <div class="sec-label">02 · Framework</div>
+  <div class="sec-title">Lockheed Martin Kill Chain Mapping</div>
+</div>
+
+<div class="kc-grid">
+  <div class="kc-cell active">
+    <span class="kc-phase">Recon</span>
+    <span class="kc-detail">Ukraine defense supply chain profiling. NATO logistics hub targeting. Advance knowledge of CVE-2026-21509 — infra staged 14 days pre-disclosure</span>
+  </div>
+  <div class="kc-cell active">
+    <span class="kc-phase">Weaponise</span>
+    <span class="kc-detail">RTF/OLE exploit (CVE-2026-21509) + LNK/MSHTML zero-day (CVE-2026-21513). PrismexSheet Excel dropper with steganographic PNG payload. Drone inventory lures</span>
+  </div>
+  <div class="kc-cell active">
+    <span class="kc-phase">Deliver</span>
+    <span class="kc-detail">Spearphishing (T1566.001): RTF attachments → WebDAV server → malicious .lnk files. Ukraine defense context lures (drone price lists)</span>
+  </div>
+  <div class="kc-cell active">
+    <span class="kc-phase">Exploit</span>
+    <span class="kc-detail">CVE-2026-21509 (Shell.Explorer.1 COM/OLE bypass). CVE-2026-21513 (MSHTML nested iframe DOM trust abuse → sandbox escape)</span>
+  </div>
+  <div class="kc-cell active">
+    <span class="kc-phase">Install</span>
+    <span class="kc-detail">PrismexDrop → COM hijack ({68DDBB56}) + scheduled task "OneDriveHealth". PrismexLoader reads steganographic PNG, loads .NET assembly fully in-memory</span>
+  </div>
+  <div class="kc-cell active">
+    <span class="kc-phase">C2</span>
+    <span class="kc-detail">Covenant Grunt implant (PrismexStager) → encrypted comms via filen[.]io (legitimate cloud storage). Backup: freefoodaid[.]com → chickenkiller[.]com</span>
+  </div>
+  <div class="kc-cell active">
+    <span class="kc-phase">Actions</span>
+    <span class="kc-detail">Email collection (T1114.001). Sabotage: WIPER command deleted all %USERPROFILE% files (Oct 2025). Long-term persistent access across 7 NATO countries</span>
+  </div>
+</div>
+
+<!-- SECTION 3: INFECTION CHAIN -->
+<div class="section">
+  <div class="sec-label">03 · Technical Analysis</div>
+  <div class="sec-title">PRISMEX Infection Chain — Four-Stage Suite</div>
+</div>
+
+<p>The PRISMEX campaign uses a four-component malware suite with a clear separation of concerns: each stage performs a discrete task and hands off to the next, minimising the footprint of any single component. The chain begins with a document-based initial access exploit and ends with an in-memory .NET C2 implant communicating through a legitimate cloud storage provider. Notably, APT28 infrastructure for this campaign was operational 14 days before public disclosure of CVE-2026-21509, strongly implying advance access to vulnerability research consistent with GRU intelligence capabilities.</p>
+
+<div class="chain-steps">
+
+  <div class="chain-step">
+    <div class="chain-num">01</div>
+    <div class="chain-body">
+      <div class="chain-title">Initial Access: PrismexSheet — Excel Dropper via OLE/MSHTML Zero-Days</div>
+      <div class="chain-desc">The victim receives a spearphishing email with an RTF attachment exploiting CVE-2026-21509, a Security Feature Bypass in the Shell.Explorer.1 COM object (CLSID: EAB22AC3-30C1-11CF-A7EB-0000C05BAE0B). This requires no user interaction beyond opening the document. The exploit retrieves a malicious .LNK file from a WebDAV server; the LNK exploits CVE-2026-21513 (MSHTML nested iframe DOM trust abuse) to achieve sandbox escape. Separately, PrismexSheet is delivered as an Excel .xlsx dropper using VBA macros and drone inventory / price list lures targeting Ukrainian defense contacts. It extracts a steganographic payload from an embedded PNG.</div>
+      <span class="chain-tech">T1566.001 — Spearphish Attachment</span>
+      <span class="chain-tech">T1203 — Exploitation CVE-2026-21509</span>
+      <span class="chain-tech">T1059.005 — VBA Macro</span>
+      <span class="chain-tech">T1027.003 — Steganography</span>
+    </div>
+  </div>
+
+  <div class="chain-step">
+    <div class="chain-num">02</div>
+    <div class="chain-body">
+      <div class="chain-title">Staging: PrismexDrop — Native Dropper &amp; Environment Preparation</div>
+      <div class="chain-desc">PrismexDrop is a native PE binary that prepares the victim environment, drops the remaining PRISMEX components, and establishes two persistence mechanisms simultaneously: a scheduled task named "OneDriveHealth" (masquerading as a legitimate Microsoft maintenance task) and COM DLL hijacking via adwapi64.dll — a deliberate misspelling of the legitimate advapi32.dll. The COM hijack targets CLSID {68DDBB56-9D1D-4FD9-89C5-C0DA2A625392}, writing the malicious DLL path to HKCU\Software\Classes\CLSID\{68DDBB56...}\InprocServer32.</div>
+      <span class="chain-tech">T1053.005 — Scheduled Task (OneDriveHealth)</span>
+      <span class="chain-tech">T1574.001 — DLL Search Order Hijack</span>
+      <span class="chain-tech">T1546.015 — COM Hijacking</span>
+    </div>
+  </div>
+
+  <div class="chain-step">
+    <div class="chain-num">03</div>
+    <div class="chain-body">
+      <div class="chain-title">Loading: PrismexLoader — Proxy DLL with Custom Steganography</div>
+      <div class="chain-desc">PrismexLoader is a proxy DLL that mimics a legitimate system DLL, loaded via the COM hijack established in the previous stage. It reads a PNG file from disk and extracts a hidden .NET assembly using a custom algorithm designated "Bit Plane Round Robin" — a novel steganography technique not previously attributed to APT28 tooling. Critically, the .NET runtime is loaded entirely in-memory: no assembly file is ever written to disk, making file-based detection ineffective. The extracted .NET assembly is PrismexStager.</div>
+      <span class="chain-tech">T1027.003 — Steganography (Bit Plane Round Robin)</span>
+      <span class="chain-tech">T1055 — Process Injection</span>
+      <span class="chain-tech">T1218.011 — Signed Binary Proxy Execution</span>
+    </div>
+  </div>
+
+  <div class="chain-step">
+    <div class="chain-num">04</div>
+    <div class="chain-body">
+      <div class="chain-title">C2: PrismexStager — Covenant Grunt via filen[.]io</div>
+      <div class="chain-desc">PrismexStager is a .NET Covenant Grunt implant — an expansion of the MiniDoor/NotDoor (GONEPOSTAL) Outlook backdoor previously attributed to APT28. It beacons to attacker infrastructure by routing C2 traffic through filen[.]io, a legitimate end-to-end encrypted cloud storage service. Using a trusted platform with valid TLS provides natural cover for encrypted C2 traffic. In October 2025, this component executed a WIPER command deleting all files under %USERPROFILE%, demonstrating active sabotage capability beyond pure espionage. The JARM fingerprint for the primary C2 domain is: 1dd40d40d00040d00042d43d0000003d25bc6207ca8acd9652e99aa3724a08.</div>
+      <span class="chain-tech">T1071.001 — Web Protocol C2</span>
+      <span class="chain-tech">T1102 — Web Service Abuse (filen[.]io)</span>
+      <span class="chain-tech">T1573 — Encrypted Channel</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- SECTION 4: TTP MATRIX -->
+<div class="section">
+  <div class="sec-label">04 · ATT&amp;CK Mapping</div>
+  <div class="sec-title">MITRE ATT&amp;CK Techniques</div>
+</div>
+
+<div class="ttp-grid">
+  <div class="ttp-card">
+    <div class="ttp-id">T1566.001 · T1203</div>
+    <div class="ttp-name">Spearphishing + Zero-Day Exploitation</div>
+    <div class="ttp-desc">RTF attachment delivers CVE-2026-21509 exploit (Shell.Explorer.1 COM bypass, no user interaction). Chains to CVE-2026-21513 MSHTML sandbox escape via WebDAV-hosted LNK. Infrastructure staged 14 days pre-disclosure.</div>
+  </div>
+  <div class="ttp-card">
+    <div class="ttp-id">T1546.015 · T1053.005</div>
+    <div class="ttp-name">COM Hijack + Scheduled Task Persistence</div>
+    <div class="ttp-desc">Dual persistence: CLSID {68DDBB56} hijacked via adwapi64.dll (misspelling of advapi32.dll), written to HKCU\Software\Classes\CLSID. Scheduled task "OneDriveHealth" created from suspicious parent processes (\AppData\, \Temp\).</div>
+  </div>
+  <div class="ttp-card">
+    <div class="ttp-id">T1027.003</div>
+    <div class="ttp-name">Custom Steganography — Bit Plane Round Robin</div>
+    <div class="ttp-desc">Novel steganography algorithm hides .NET assemblies inside PNG images. Extraction performed in-memory by PrismexLoader proxy DLL — no payload file ever written to disk. Not previously documented in APT28 tooling.</div>
+  </div>
+  <div class="ttp-card">
+    <div class="ttp-id">T1055 · T1218.011</div>
+    <div class="ttp-name">In-Memory Assembly Injection</div>
+    <div class="ttp-desc">PrismexLoader loads .NET runtime and executes PrismexStager entirely in memory. CLR loaded within explorer.exe — detectable via ETW telemetry monitoring unusual runtime loads in non-development processes.</div>
+  </div>
+  <div class="ttp-card">
+    <div class="ttp-id">T1102 · T1573</div>
+    <div class="ttp-name">Legitimate Service Abuse — filen[.]io C2</div>
+    <div class="ttp-desc">Covenant Grunt C2 routed through filen[.]io encrypted cloud storage. Traffic appears legitimate outbound HTTPS to a known service, bypassing reputation-based blocking. TLS CN mismatch on freefoodaid[.]com exposed chickenkiller[.]com as backup infrastructure.</div>
+  </div>
+  <div class="ttp-card">
+    <div class="ttp-id">T1553.005</div>
+    <div class="ttp-name">Mark-of-the-Web Bypass</div>
+    <div class="ttp-desc">WebDAV-delivered LNK payload bypasses MOTW controls that would otherwise flag files downloaded from the internet. Enables execution of the CVE-2026-21513 exploit without Windows SmartScreen intervention.</div>
+  </div>
+  <div class="ttp-card">
+    <div class="ttp-id">T1114.001</div>
+    <div class="ttp-name">Local Email Collection</div>
+    <div class="ttp-desc">PrismexStager evolved from the MiniDoor/NotDoor (GONEPOSTAL) Outlook backdoor. Local email collection capability maintained in current variant — targets diplomatic/defense correspondence on victim hosts.</div>
+  </div>
+  <div class="ttp-card">
+    <div class="ttp-id">T1574.011 · T1574.001</div>
+    <div class="ttp-name">DLL Hijacking Variants</div>
+    <div class="ttp-desc">adwapi64.dll placed in DLL search-order priority position. The misspelling of advapi32.dll is a deliberate analyst trap — automated tooling scanning for advapi32 will not surface the malicious DLL. Consistent with APT28 operational security discipline.</div>
+  </div>
+</div>
+
+<!-- TTP COMPARISON NOTE -->
+<div class="section">
+  <div class="sec-label">04b · Analyst Note</div>
+  <div class="sec-title">TTP Overlap Analysis: PRISMEX vs. Prior APT28 Tooling</div>
+</div>
+
+<p>A comparison of PRISMEX TTPs against prior APT28 campaigns reveals shared foundations overlaid with novel techniques. Shared TTPs indicate this is an evolution of the same actor cluster, not a new group. Novel TTPs — particularly the custom steganography and Covenant Grunt C2 — represent a deliberate capability investment, likely driven by increased detection of prior tooling.</p>
+
+<table class="overlap-table">
+  <thead>
+    <tr>
+      <th>TTP</th>
+      <th>Status vs. Prior APT28</th>
+      <th>Significance</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>T1071.001 · T1573 · T1102</td>
+      <td><span class="shared">SHARED</span></td>
+      <td>Encrypted HTTPS C2 + cloud service abuse consistent across APT28 campaigns since 2022</td>
+    </tr>
+    <tr>
+      <td>T1566.001 · T1203 · T1218.011</td>
+      <td><span class="shared">SHARED</span></td>
+      <td>Spearphish + exploitation + signed binary proxy — standard APT28 initial access pattern</td>
+    </tr>
+    <tr>
+      <td>T1059.001 · T1546.015 · T1204.001</td>
+      <td><span class="shared">SHARED</span></td>
+      <td>PowerShell execution + COM hijacking observed in prior GONEPOSTAL/NotDoor activity</td>
+    </tr>
+    <tr>
+      <td>T1027.003 — Bit Plane Round Robin Steganography</td>
+      <td><span class="unique">UNIQUE TO PRISMEX</span></td>
+      <td>Custom algorithm not previously documented — represents new capability investment</td>
+    </tr>
+    <tr>
+      <td>T1053.005 — "OneDriveHealth" Scheduled Task</td>
+      <td><span class="unique">UNIQUE TO PRISMEX</span></td>
+      <td>Specific masquerade name and %AppData% delivery path distinguishes this cluster</td>
+    </tr>
+    <tr>
+      <td>T1059.005 — VBA Macro Dropper</td>
+      <td><span class="unique">UNIQUE TO PRISMEX</span></td>
+      <td>VBA-based dropper with steganographic PNG not observed in prior APT28 tooling sets</td>
+    </tr>
+    <tr>
+      <td>T1114.001 — Local Email Collection via Covenant Grunt</td>
+      <td><span class="unique">UNIQUE TO PRISMEX</span></td>
+      <td>Expansion of MiniDoor Outlook backdoor into full Covenant framework — capability upgrade</td>
+    </tr>
+    <tr>
+      <td>T1574.011 · T1574.001 — adwapi64.dll Hijack</td>
+      <td><span class="unique">UNIQUE TO PRISMEX</span></td>
+      <td>Deliberate misspelling as analyst evasion; specific CLSID {68DDBB56} not in prior reporting</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- SECTION 5: ATTRIBUTION -->
+<div class="section">
+  <div class="sec-label">05 · Attribution</div>
+  <div class="sec-title">Attribution Assessment — APT28 / Pawn Storm (HIGH Confidence, A-1)</div>
+</div>
+
+<p>Attribution to APT28 (Pawn Storm / Fancy Bear / Forest Blizzard / UAC-0001 / STRONTIUM / BlueDelta / Sofacy / Sednit) is assessed with <strong>HIGH confidence (A-1)</strong> based on the following six independent evidence points, not solely on vendor reporting:</p>
+
+<div class="chain-steps">
+  <div class="chain-step">
+    <div class="chain-num">1</div>
+    <div class="chain-body">
+      <div class="chain-title">Infrastructure Staging Pre-Disclosure (14-Day Lead)</div>
+      <div class="chain-desc">The primary C2 domain wellnesscaremed[.]com (first seen 2026-01-30) was operational 14 days before public disclosure of CVE-2026-21509. This advance knowledge of the vulnerability timeline is consistent with GRU intelligence access to vulnerability research pipelines — a documented APT28 characteristic.</div>
+    </div>
+  </div>
+  <div class="chain-step">
+    <div class="chain-num">2</div>
+    <div class="chain-body">
+      <div class="chain-title">Covenant Grunt as Evolution of GONEPOSTAL / NotDoor</div>
+      <div class="chain-desc">PrismexStager is a Covenant Grunt implant directly attributed as an expansion of MiniDoor/NotDoor (GONEPOSTAL), an Outlook backdoor previously attributed to APT28 by multiple vendors. Tooling lineage constitutes direct technical continuity evidence.</div>
+    </div>
+  </div>
+  <div class="chain-step">
+    <div class="chain-num">3</div>
+    <div class="chain-body">
+      <div class="chain-title">Infrastructure Overlaps Confirmed via Passive DNS Pivot</div>
+      <div class="chain-desc">Independent pivot work confirmed: IP 23.227.202.14 resolves wellnesscaremed[.]com (VirusTotal Relations). TLS CN mismatch on freefoodaid[.]com exposed chickenkiller[.]com as backup infrastructure (OTX pulse + VirusTotal graph, Lenard_). IP 72.62.185.31 confirmed via passive DNS resolving longsauce[.]com. These infrastructure connections were confirmed independently across multiple tools — not sourced from a single vendor.</div>
+    </div>
+  </div>
+  <div class="chain-step">
+    <div class="chain-num">4</div>
+    <div class="chain-body">
+      <div class="chain-title">CERT-UA Advisory Attribution (159[.]253.120.2 — Havoc C2)</div>
+      <div class="chain-desc">IP 159[.]253.120.2 is listed in a CERT-UA advisory as a network artifact associated with Havoc C2 framework use — consistent with APT28 operational tooling patterns documented in prior CERT-UA threat reporting on Ukrainian infrastructure targeting.</div>
+    </div>
+  </div>
+  <div class="chain-step">
+    <div class="chain-num">5</div>
+    <div class="chain-body">
+      <div class="chain-title">Victimology Perfectly Matches APT28 Historical Targeting</div>
+      <div class="chain-desc">Ukrainian defense supply chain, Poland rail logistics, Romania maritime, Slovak/Czech ammunition initiatives — this victim set precisely mirrors documented APT28 targeting priorities since 2022, consistent with GRU strategic collection requirements against NATO's Ukraine support infrastructure.</div>
+    </div>
+  </div>
+  <div class="chain-step">
+    <div class="chain-num">6</div>
+    <div class="chain-body">
+      <div class="chain-title">sharedStrings.xml Malicious File Linking 23.227.202.138 ↔ 72.62.185.31</div>
+      <div class="chain-desc"><strong style="color:var(--amber)">★ INDEPENDENT PIVOT — NOT IN PRIMARY VENDOR REPORT</strong> — IP 23.227.202.138 (0 vendor detections on the IP itself) has one communicating file — sharedStrings.xml (SHA256: f2a6389e0cd14ec6a4546a4edbf5a15ea200ee769ad7862befb3a6fd6c88524c) — flagged as malicious by 49 vendors on VirusTotal and independently attributed to APT28. This file also references IP 72.62.185.31 (Hostinger, Paris), establishing a cross-infrastructure link between the 23.227.202.x /24 subnet and the longsauce[.]com infrastructure cluster. Identified through passive DNS pivot on Censys and VirusTotal Relations — not reported in the primary Trend Micro source.</div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 6: IOC TABLE -->
+<div class="section">
+  <div class="sec-label">06 · Indicators of Compromise</div>
+  <div class="sec-title">IOC Table — Admiralty Rated</div>
+</div>
+
+<p style="font-size:11px; color:rgba(13,15,20,0.55); margin-bottom:12px;">Admiralty Source Ratings: A = Completely reliable (multi-tool confirmation or primary vendor). B = Usually reliable (single source, partial validation). Information Ratings: 1 = Confirmed (2+ independent sources). 2 = Probably true (correlated evidence). 3 = Possibly true (not fully verified or no longer confirmed active). All IPs should be enriched before hard-blocking — data center hosting may be shared.</p>
+
+<table class="ioc-table">
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Indicator (Defanged)</th>
+      <th>Context</th>
+      <th>Conf.</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Domain</td>
+      <td>wellnesscaremed[.]com</td>
+      <td>Primary C2 domain, initial access phase. First seen 2026-01-30 — 14 days before CVE-2026-21509 public disclosure. JARM: 1dd40d40d00040d00042d43d0000003d25bc6207ca8acd9652e99aa3724a08. Vendor report (TrendAI) + VirusTotal + CERT-UA correlation.</td>
+      <td><span class="conf-badge conf-a1">A-1</span></td>
+    </tr>
+    <tr>
+      <td>IP</td>
+      <td>23.227.202.14</td>
+      <td>Passive DNS resolution for wellnesscaremed[.]com. ISP: Hivelocity Ventures Corp (ASN 29802), Tampa FL. Confirmed via VirusTotal Relations. 0 AbuseIPDB reports — clean hosting used for cover.</td>
+      <td><span class="conf-badge conf-a2">A-2</span></td>
+    </tr>
+    <tr>
+      <td>IP</td>
+      <td>159[.]253.120.2</td>
+      <td>CERT-UA advisory network artifact. Havoc C2 framework. Confirmed attribution to APT28 in official Ukrainian government threat reporting.</td>
+      <td><span class="conf-badge conf-a1">A-1</span></td>
+    </tr>
+    <tr>
+      <td>Domain</td>
+      <td>freefoodaid[.]com</td>
+      <td>TLS CN mismatch exposed chickenkiller[.]com as backup C2 infrastructure. OTX pulse + VirusTotal graph (Lenard_). Confirmed infrastructure overlap.</td>
+      <td><span class="conf-badge conf-a2">A-2</span></td>
+    </tr>
+    <tr>
+      <td>Domain</td>
+      <td>chickenkiller[.]com</td>
+      <td>Backup C2 infrastructure — exposed via TLS CN mismatch on freefoodaid[.]com. Independent pivot confirmation via OTX. Not in primary vendor report as named backup.</td>
+      <td><span class="conf-badge conf-a2">A-2</span></td>
+    </tr>
+    <tr>
+      <td>Domain</td>
+      <td>longsauce[.]com</td>
+      <td>Associated infrastructure, OTX pulse. IP 72.62.185.31 confirmed via passive DNS. Also links to sharedStrings.xml malicious file cluster (independent pivot).</td>
+      <td><span class="conf-badge conf-a1">A-1</span></td>
+    </tr>
+    <tr>
+      <td>Domain</td>
+      <td>wellnessmedcare[.]org</td>
+      <td>Associated infrastructure — typosquat variant of primary C2 domain. OTX pulse. Probable staging or phishing domain, not confirmed as active C2.</td>
+      <td><span class="conf-badge conf-a2">A-2</span></td>
+    </tr>
+    <tr>
+      <td>Platform</td>
+      <td>filen[.]io (gateway, ingest, egest subdomains)</td>
+      <td>Legitimate cloud storage platform abused as C2 channel by PrismexStager (Covenant Grunt). Encrypted traffic via filen[.]io provides natural cover. Block or alert on unusual process → filen[.]io connections.</td>
+      <td><span class="conf-badge conf-a2">A-2</span></td>
+    </tr>
+    <tr>
+      <td>IP</td>
+      <td>193.187.148.169</td>
+      <td>ISP: M247 LTD Frankfurt Infrastructure (ASN 9009), Germany. 1 AbuseIPDB report. Confirmed via VirusTotal + OTX + AbuseIPDB. Associated with PRISMEX infrastructure cluster.</td>
+      <td><span class="conf-badge conf-a2">A-2</span></td>
+    </tr>
+    <tr>
+      <td>IP</td>
+      <td>193.187.148.247</td>
+      <td><strong>★ INDEPENDENT PIVOT</strong> — New lead from /24 subnet pivot on 193.187.148.x. Flagged and all communicating files confirmed malicious. Latest detection: 10 April 2026. Same M247 Frankfurt infrastructure as .169. Not reported in primary source.</td>
+      <td><span class="conf-badge conf-a2">A-2</span></td>
+    </tr>
+    <tr>
+      <td>IP</td>
+      <td>72.62.185.31</td>
+      <td>ISP: Hostinger Operations UAB (ASN 47583), Paris FR. Passive DNS confirms resolution for longsauce[.]com. File sharedStrings.xml (flagged by 49 vendors) references this IP — cross-links to 23.227.202.138 cluster. VirusTotal + OTX confirmed.</td>
+      <td><span class="conf-badge conf-a2">A-2</span></td>
+    </tr>
+    <tr>
+      <td>IP</td>
+      <td>23.227.202.138</td>
+      <td><strong>★ INDEPENDENT PIVOT</strong> — 0 vendor detections on IP. Communicating file sharedStrings.xml flagged by 49 vendors, attributed to APT28 (VirusTotal). Cross-links to 72.62.185.31. Identified via Censys subnet pivot — not in primary vendor report.</td>
+      <td><span class="conf-badge conf-a2">A-2</span></td>
+    </tr>
+    <tr>
+      <td>IP</td>
+      <td>23.227.202.165</td>
+      <td>8 vendors flagged on VirusTotal. Part of 23.227.202.x/24 subnet cluster. Havoc C2 infrastructure login panel confirmed active at time of research (Censys).</td>
+      <td><span class="conf-badge conf-a2">A-2</span></td>
+    </tr>
+    <tr>
+      <td>IP</td>
+      <td>23.227.202.116</td>
+      <td>Low severity — part of 23.227.202.x/24 subnet. Censys-identified. Not independently confirmed malicious. Treat as low-confidence enrichment lead.</td>
+      <td><span class="conf-badge conf-b3">B-3</span></td>
+    </tr>
+    <tr>
+      <td>SHA256</td>
+      <td>aefd15e3c395edd16ede7685c6e97ca0350a702ee7c8585274b457166e86b1fa</td>
+      <td>PRISMEX exploit sample (initial access stage). Vendor report — no MalwareBazaar listing confirmed as of report date. Single-source confirmation.</td>
+      <td><span class="conf-badge conf-b2">B-2</span></td>
+    </tr>
+    <tr>
+      <td>SHA256</td>
+      <td>f2a6389e0cd14ec6a4546a4edbf5a15ea200ee769ad7862befb3a6fd6c88524c</td>
+      <td><strong>★ INDEPENDENT PIVOT</strong> — sharedStrings.xml. Flagged by 49 vendors on VirusTotal. References both 23.227.202.138 and 72.62.185.31. APT28 attribution on VT. Cross-infrastructure link discovered via subnet pivot — not in primary vendor report.</td>
+      <td><span class="conf-badge conf-a2">A-2</span></td>
+    </tr>
+    <tr>
+      <td>CLSID</td>
+      <td>{68DDBB56-9D1D-4FD9-89C5-C0DA2A625392}</td>
+      <td>COM hijack target CLSID used by PrismexDrop for persistence via adwapi64.dll. Monitor HKCU\Software\Classes\CLSID\{68DDBB56...}\InprocServer32 for unauthorized writes.</td>
+      <td><span class="conf-badge conf-a1">A-1</span></td>
+    </tr>
+    <tr>
+      <td>DLL / Filename</td>
+      <td>adwapi64.dll</td>
+      <td>Malicious COM hijack DLL — deliberate misspelling of advapi32.dll. Path: %APPDATA% or System32 directory depending on privilege level. High-fidelity hunt artifact — no legitimate software uses this filename.</td>
+      <td><span class="conf-badge conf-a1">A-1</span></td>
+    </tr>
+    <tr>
+      <td>Task Name</td>
+      <td>OneDriveHealth</td>
+      <td>Scheduled task name used by PrismexDrop for persistence. Created from suspicious parent processes (powershell.exe, cmd.exe, wscript.exe) pointing to paths in \AppData\ or \Temp\. High-fidelity detection anchor.</td>
+      <td><span class="conf-badge conf-a1">A-1</span></td>
+    </tr>
+    <tr>
+      <td>CVE</td>
+      <td>CVE-2026-21509</td>
+      <td>Security Feature Bypass — Shell.Explorer.1 COM object, CLSID EAB22AC3-30C1-11CF-A7EB-0000C05BAE0B. Embedded OLE in RTF. No user interaction required. APT28 staged infrastructure 14 days pre-disclosure.</td>
+      <td><span class="conf-badge conf-a1">A-1</span></td>
+    </tr>
+    <tr>
+      <td>CVE</td>
+      <td>CVE-2026-21513</td>
+      <td>MSHTML sandbox escape via nested iframe DOM trust manipulation. htmlfile ActiveX object + about:blank iframes → document.Script.open() → _AttemptShellExecuteForHlinkNavigat. Delivers code execution outside browser sandbox. Chained with CVE-2026-21509.</td>
+      <td><span class="conf-badge conf-a1">A-1</span></td>
+    </tr>
+    <tr>
+      <td>JARM</td>
+      <td>1dd40d40d00040d00042d43d0000003d25bc6207ca8acd9652e99aa3724a08</td>
+      <td>TLS fingerprint for wellnesscaremed[.]com C2 infrastructure. Use for hunting across network logs — new C2 infrastructure using same TLS stack will share this fingerprint.</td>
+      <td><span class="conf-badge conf-b2">B-2</span></td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="pivot-note">
+  <strong>★ ANALYST NOTE — INDEPENDENT PIVOT FINDINGS</strong>
+  IOCs marked ★ INDEPENDENT PIVOT were identified through analyst-conducted passive DNS pivoting on Censys and VirusTotal Relations and were <em>not</em> present in the primary Trend Micro / TrendAI vendor report. These include: 193.187.148.247 (/24 subnet expansion), 23.227.202.138 (communicating file cross-link), sharedStrings.xml (SHA256 f2a638...) linking the 23.227.202.x and 72.62.185.31 clusters, and the chickenkiller[.]com backup infrastructure identification via TLS CN mismatch. The sharedStrings.xml finding specifically establishes a cross-infrastructure link between two previously separate IP clusters — strengthening the case for unified APT28 management of this infrastructure.
+</div>
+
+<!-- SECTION 7: SIGMA DETECTION RULES -->
+<div class="section">
+  <div class="sec-label">07 · Detection</div>
+  <div class="sec-title">Sigma Detection Rules — Three High-Confidence Rules</div>
+</div>
+
+<p>Three Sigma rules are provided below, targeting the highest-fidelity PRISMEX detection anchors: COM hijacking via adwapi64.dll, the OneDriveHealth scheduled task persistence, and Covenant C2 listener artifacts. Each rule includes false-positive analysis. The COM hijack and scheduled task rules are recommended for immediate SIEM deployment; the Covenant rule is appropriate for environments with mature EDR telemetry.</p>
+
+<span class="sigma-label">Rule 1 of 3 — PRISMEX COM Hijack via adwapi64.dll (HIGH)</span>
+<div class="code-block"><span class="c">title</span><span class="k">:</span> <span class="s">PRISMEX COM Hijack via adwapi64.dll Persistence</span>
+<span class="c">id</span><span class="k">:</span> <span class="s">9c7c8f5e-6a21-4d7e-9d6f-prismex-com-hijack</span>
+<span class="c">status</span><span class="k">:</span> <span class="s">test</span>
+<span class="c">description</span><span class="k">:</span> <span class="s">Detects COM hijacking associated with PRISMEX malware via CLSID</span>
+<span class="c">             </span><span class="s">{68DDBB56-9D1D-4FD9-89C5-C0DA2A625392} modified to load</span>
+<span class="c">             </span><span class="s">malicious adwapi64.dll (misspelling of advapi32.dll).</span>
+<span class="c">author</span><span class="k">:</span> <span class="s">Junior CTI Analyst — TI-RPT-2026-002</span>
+<span class="c">date</span><span class="k">:</span> <span class="s">2026/04/30</span>
+<span class="c">tags</span><span class="k">:</span>
+  <span class="k">-</span> <span class="s">attack.persistence</span>
+  <span class="k">-</span> <span class="s">attack.t1546.015</span>
+  <span class="k">-</span> <span class="s">attack.defense_evasion</span>
+  <span class="k">-</span> <span class="s">malware.prismex</span>
+<span class="c">logsource</span><span class="k">:</span>
+  <span class="c">  product</span><span class="k">:</span> <span class="s">windows</span>
+  <span class="c">  category</span><span class="k">:</span> <span class="s">registry_set</span>
+<span class="c">detection</span><span class="k">:</span>
+  <span class="c">  selection_clsid</span><span class="k">:</span>
+    <span class="c">    TargetObject|contains</span><span class="k">:</span>
+      <span class="k">-</span> <span class="s">'\CLSID\{68DDBB56-9D1D-4FD9-89C5-C0DA2A625392}\InprocServer32'</span>
+      <span class="k">-</span> <span class="s">'\WOW6432Node\CLSID\{68DDBB56-9D1D-4FD9-89C5-C0DA2A625392}\InprocServer32'</span>
+  <span class="c">  selection_dll</span><span class="k">:</span>
+    <span class="c">    Details|contains</span><span class="k">:</span>
+      <span class="k">-</span> <span class="s">'adwapi64.dll'</span>
+  <span class="c">  selection_hives</span><span class="k">:</span>
+    <span class="c">    TargetObject|contains</span><span class="k">:</span>
+      <span class="k">-</span> <span class="s">'HKCU\Software\Classes\CLSID'</span>
+      <span class="k">-</span> <span class="s">'HKLM\Software\Classes\CLSID'</span>
+  <span class="c">  selection_process</span><span class="k">:</span>
+    <span class="c">    Image|endswith</span><span class="k">:</span>
+      <span class="k">-</span> <span class="s">'\reg.exe'</span>
+      <span class="k">-</span> <span class="s">'\powershell.exe'</span>
+      <span class="k">-</span> <span class="s">'\cmd.exe'</span>
+      <span class="k">-</span> <span class="s">'\wscript.exe'</span>
+  <span class="c">  filter_legitimate</span><span class="k">:</span>
+    <span class="c">    Image|endswith</span><span class="k">:</span>
+      <span class="k">-</span> <span class="s">'\msiexec.exe'</span>
+      <span class="k">-</span> <span class="s">'\trustedinstaller.exe'</span>
+  <span class="c">  condition</span><span class="k">:</span> <span class="s">selection_clsid and selection_dll and selection_hives and selection_process and not filter_legitimate</span>
+<span class="c">falsepositives</span><span class="k">:</span>
+  <span class="k">-</span> <span class="s">Legitimate software using similarly named DLL (validate path + signer — none expected)</span>
+<span class="c">level</span><span class="k">:</span> <span class="s">high</span></div>
+
+<span class="sigma-label">Rule 2 of 3 — Suspicious Scheduled Task Mimicking OneDriveHealth (HIGH)</span>
+<div class="code-block"><span class="c">title</span><span class="k">:</span> <span class="s">Suspicious Scheduled Task Creation Mimicking OneDriveHealth (PRISMEX)</span>
+<span class="c">id</span><span class="k">:</span> <span class="s">1f2b9e7a-3d54-4c91-9e6b-prismex-schtasks-onedrivehealth</span>
+<span class="c">status</span><span class="k">:</span> <span class="s">test</span>
+<span class="c">description</span><span class="k">:</span> <span class="s">Detects "OneDriveHealth" scheduled task creation from suspicious</span>
+<span class="c">             </span><span class="s">parent processes or user-writable paths — PRISMEX persistence.</span>
+<span class="c">author</span><span class="k">:</span> <span class="s">Junior CTI Analyst — TI-RPT-2026-002</span>
+<span class="c">date</span><span class="k">:</span> <span class="s">2026/04/30</span>
+<span class="c">tags</span><span class="k">:</span>
+  <span class="k">-</span> <span class="s">attack.persistence</span>
+  <span class="k">-</span> <span class="s">attack.t1053.005</span>
+  <span class="k">-</span> <span class="s">malware.prismex</span>
+<span class="c">logsource</span><span class="k">:</span>
+  <span class="c">  product</span><span class="k">:</span> <span class="s">windows</span>
+  <span class="c">  category</span><span class="k">:</span> <span class="s">process_creation</span>
+<span class="c">detection</span><span class="k">:</span>
+  <span class="c">  selection_schtasks</span><span class="k">:</span>
+    <span class="c">    Image|endswith</span><span class="k">:</span> <span class="s">'\schtasks.exe'</span>
+  <span class="c">  selection_create</span><span class="k">:</span>
+    <span class="c">    CommandLine|contains</span><span class="k">:</span>
+      <span class="k">-</span> <span class="s">'/create'</span>
+  <span class="c">  selection_name</span><span class="k">:</span>
+    <span class="c">    CommandLine|contains</span><span class="k">:</span>
+      <span class="k">-</span> <span class="s">'OneDriveHealth'</span>
+  <span class="c">  selection_suspicious</span><span class="k">:</span>
+    <span class="c">    CommandLine|contains</span><span class="k">:</span>
+      <span class="k">-</span> <span class="s">'\AppData\'</span>
+      <span class="k">-</span> <span class="s">'\Temp\'</span>
+      <span class="k">-</span> <span class="s">'\Users\Public\'</span>
+      <span class="k">-</span> <span class="s">'C:\ProgramData\'</span>
+  <span class="c">  selection_parent</span><span class="k">:</span>
+    <span class="c">    ParentImage|endswith</span><span class="k">:</span>
+      <span class="k">-</span> <span class="s">'\powershell.exe'</span>
+      <span class="k">-</span> <span class="s">'\cmd.exe'</span>
+      <span class="k">-</span> <span class="s">'\wscript.exe'</span>
+      <span class="k">-</span> <span class="s">'\mshta.exe'</span>
+  <span class="c">  filter_legit</span><span class="k">:</span>
+    <span class="c">    ParentImage|endswith</span><span class="k">:</span>
+      <span class="k">-</span> <span class="s">'\services.exe'</span>
+      <span class="k">-</span> <span class="s">'\svchost.exe'</span>
+      <span class="k">-</span> <span class="s">'\msiexec.exe'</span>
+  <span class="c">  condition</span><span class="k">:</span> <span class="s">selection_schtasks and selection_create and selection_name and (selection_suspicious or selection_parent) and not filter_legit</span>
+<span class="c">falsepositives</span><span class="k">:</span>
+  <span class="k">-</span> <span class="s">Rare enterprise scripts creating similarly named tasks from user-writable paths</span>
+<span class="c">level</span><span class="k">:</span> <span class="s">high</span></div>
+
+<span class="sigma-label">Rule 3 of 3 — Covenant C2 Grunt / Listener Detection (HIGH)</span>
+<div class="code-block"><span class="c">title</span><span class="k">:</span> <span class="s">Suspicious .NET Execution — Potential Covenant C2 Grunt (PRISMEX)</span>
+<span class="c">id</span><span class="k">:</span> <span class="s">7b2c1d9e-5e2a-4b2f-9c6f-covenant-listener-detection</span>
+<span class="c">status</span><span class="k">:</span> <span class="s">test</span>
+<span class="c">description</span><span class="k">:</span> <span class="s">Detects Covenant C2 Grunt artifacts (GruntHTTP/GruntSMB) or</span>
+<span class="c">             </span><span class="s">listener flags from suspicious execution paths or parent</span>
+<span class="c">             </span><span class="s">processes — used by PrismexStager in PRISMEX campaigns.</span>
+<span class="c">author</span><span class="k">:</span> <span class="s">Junior CTI Analyst — TI-RPT-2026-002</span>
+<span class="c">date</span><span class="k">:</span> <span class="s">2026/04/30</span>
+<span class="c">tags</span><span class="k">:</span>
+  <span class="k">-</span> <span class="s">attack.command_and_control</span>
+  <span class="k">-</span> <span class="s">attack.t1071</span>
+  <span class="k">-</span> <span class="s">malware.covenant</span>
+  <span class="k">-</span> <span class="s">malware.prismex</span>
+<span class="c">logsource</span><span class="k">:</span>
+  <span class="c">  product</span><span class="k">:</span> <span class="s">windows</span>
+  <span class="c">  category</span><span class="k">:</span> <span class="s">process_creation</span>
+<span class="c">detection</span><span class="k">:</span>
+  <span class="c">  selection_dotnet</span><span class="k">:</span>
+    <span class="c">    Image|endswith</span><span class="k">:</span> <span class="s">'\dotnet.exe'</span>
+  <span class="c">  selection_covenant</span><span class="k">:</span>
+    <span class="c">    CommandLine|contains</span><span class="k">:</span>
+      <span class="k">-</span> <span class="s">'Covenant.dll'</span>
+      <span class="k">-</span> <span class="s">'GruntHTTP'</span>
+      <span class="k">-</span> <span class="s">'GruntSMB'</span>
+  <span class="c">  selection_path</span><span class="k">:</span>
+    <span class="c">    CommandLine|contains</span><span class="k">:</span>
+      <span class="k">-</span> <span class="s">'\AppData\'</span>
+      <span class="k">-</span> <span class="s">'\Temp\'</span>
+      <span class="k">-</span> <span class="s">'C:\ProgramData\'</span>
+  <span class="c">  selection_parent</span><span class="k">:</span>
+    <span class="c">    ParentImage|endswith</span><span class="k">:</span>
+      <span class="k">-</span> <span class="s">'\powershell.exe'</span>
+      <span class="k">-</span> <span class="s">'\wscript.exe'</span>
+      <span class="k">-</span> <span class="s">'\mshta.exe'</span>
+  <span class="c">  filter_dev</span><span class="k">:</span>
+    <span class="c">    ParentImage|endswith</span><span class="k">:</span>
+      <span class="k">-</span> <span class="s">'\devenv.exe'</span>
+      <span class="k">-</span> <span class="s">'\msbuild.exe'</span>
+    <span class="c">    CommandLine|contains</span><span class="k">:</span>
+      <span class="k">-</span> <span class="s">'C:\Program Files\'</span>
+  <span class="c">  condition</span><span class="k">:</span> <span class="s">selection_dotnet and selection_covenant and (selection_path or selection_parent) and not filter_dev</span>
+<span class="c">falsepositives</span><span class="k">:</span>
+  <span class="k">-</span> <span class="s">Red team / purple team activity using Covenant (validate against exercise schedule)</span>
+  <span class="k">-</span> <span class="s">Legitimate self-hosted .NET services outside Program Files (rare)</span>
+<span class="c">level</span><span class="k">:</span> <span class="s">high</span></div>
+
+<!-- SECTION 8: RECOMMENDATIONS -->
+<div class="section">
+  <div class="sec-label">08 · Mitigation</div>
+  <div class="sec-title">Actionable Recommendations</div>
+</div>
+
+<ul class="rec-list">
+  <li>
+    <span class="rec-num">1</span>
+    <div>
+      <span class="rec-tag">IMMEDIATE — Block</span><br>
+      Block or alert on outbound connections to wellnesscaremed[.]com, freefoodaid[.]com, longsauce[.]com, wellnessmedcare[.]org, and chickenkiller[.]com at DNS and proxy layers. Add IPs 159[.]253.120.2 (CERT-UA confirmed) and 193.187.148.169 to blocklists. Do not block filen[.]io wholesale without business justification review — it is a legitimate service — instead alert on unusual processes (explorer.exe, powershell.exe) initiating connections to filen[.]io subdomains.
+    </div>
+  </li>
+  <li>
+    <span class="rec-num">2</span>
+    <div>
+      <span class="rec-tag">IMMEDIATE — Hunt</span><br>
+      Hunt for the scheduled task name "OneDriveHealth" across all endpoints — especially where the task action path points to \AppData\, \Temp\, or \ProgramData\. Search the filesystem for adwapi64.dll — no legitimate software uses this filename. Audit HKCU\Software\Classes\CLSID for the key {68DDBB56-9D1D-4FD9-89C5-C0DA2A625392} — its presence is a near-certain indicator of compromise.
+    </div>
+  </li>
+  <li>
+    <span class="rec-num">3</span>
+    <div>
+      <span class="rec-tag">IMMEDIATE — Patch</span><br>
+      Patch CVE-2026-21509 and CVE-2026-21513 immediately across all endpoints. If patching is delayed, implement email gateway rules to block RTF attachments from external senders and quarantine LNK files delivered within archives. Disable MSHTML (Internet Explorer mode) where not required to reduce CVE-2026-21513 attack surface.
+    </div>
+  </li>
+  <li>
+    <span class="rec-num">4</span>
+    <div>
+      <span class="rec-tag">SHORT-TERM — Detection</span><br>
+      Deploy all three Sigma rules from Section 07 in your SIEM. Enable ETW (Event Tracing for Windows) monitoring for CLR runtime loads in non-development processes — in-memory .NET assembly injection by PrismexLoader will appear as unusual CLR activity in explorer.exe or similarly unexpected host processes. This is the primary detection path for the file-less stage.
+    </div>
+  </li>
+  <li>
+    <span class="rec-num">5</span>
+    <div>
+      <span class="rec-tag">SHORT-TERM — Email</span><br>
+      Implement email gateway rules to quarantine RTF attachments with embedded OLE objects from external senders. Flag and sandbox LNK files delivered inside ZIP/RAR archives. Consider blocking WebDAV access from email links — CVE-2026-21509 relies on reaching an attacker-controlled WebDAV server for the second-stage LNK payload.
+    </div>
+  </li>
+  <li>
+    <span class="rec-num">6</span>
+    <div>
+      <span class="rec-tag">SHORT-TERM — Subnet Pivot</span><br>
+      Expand hunting across the 23.227.202.x/24 subnet — IPs .138, .165, .141, .116 all show varying degrees of association with this campaign. The subnet is on Hivelocity (ASN 29802). IPs .165 (8 vendor flags, active Havoc C2 login panel) and .138 (sharedStrings.xml cross-link) are highest priority for enrichment. IP 193.187.148.247 (M247 Frankfurt) confirmed malicious — add to blocklist.
+    </div>
+  </li>
+  <li>
+    <span class="rec-num">7</span>
+    <div>
+      <span class="rec-tag">MEDIUM-TERM — Architecture</span><br>
+      Implement application allowlisting (WDAC/AppLocker) to prevent COM hijacking via user-writable paths. Enforce User Account Control at maximum level for all non-administrative users. Audit and restrict which processes are permitted to create scheduled tasks — alert on any task creation from PowerShell, cmd.exe, wscript.exe, or mshta.exe parent processes.
+    </div>
+  </li>
+  <li>
+    <span class="rec-num">8</span>
+    <div>
+      <span class="rec-tag">MEDIUM-TERM — Awareness</span><br>
+      Brief Ukrainian defense partners, Polish rail logistics staff, Romanian maritime operators, and Slovak/Czech ammunition initiative personnel on targeted spearphishing campaigns using drone inventory and defense procurement lures. This campaign specifically exploits the operational context of Ukraine war support logistics — brief staff that Excel files related to drone pricing or inventory are a confirmed lure category.
+    </div>
+  </li>
+  <li>
+    <span class="rec-num">9</span>
+    <div>
+      <span class="rec-tag">ONGOING — Wiper Awareness</span><br>
+      This campaign carries active sabotage capability: the October 2025 wiper command deleted all files under %USERPROFILE%. Ensure offline or immutable backups exist for all endpoints in targeted sectors. If a host is suspected to be compromised by PrismexStager, treat it as a potential wiper target and isolate immediately rather than allowing continued operation during investigation.
+    </div>
+  </li>
+</ul>
+
+<!-- SECTION 9: OPEN QUESTIONS -->
+<div class="section">
+  <div class="sec-label">09 · Open Questions</div>
+  <div class="sec-title">Unresolved Analytical Questions</div>
+</div>
+
+<ul class="oq-list">
+  <li><strong>CVE Chain Consistency:</strong> Is CVE-2026-21513 consistently chained with CVE-2026-21509 in all infections, or is it used independently against different target sets? Confirm via additional sample analysis.</li>
+  <li><strong>Filen[.]io Abuse Scope:</strong> How widely is filen[.]io abused for C2 beyond PRISMEX? Are other threat actors (particularly other GRU-aligned groups) using it in concurrent campaigns? Platform notification may be warranted.</li>
+  <li><strong>Wiper Status in Current Campaigns:</strong> The wiper capability was observed in October 2025. Are destructive commands active in the current campaign wave, or have they been deactivated following exposure? Victim telemetry needed.</li>
+  <li><strong>Certificate / JARM Clustering:</strong> Can attribution confidence be elevated further by identifying shared TLS certificates or JARM fingerprints across newly discovered infrastructure? The JARM (1dd40d...) should be queried against Shodan and Censys for additional C2 identification.</li>
+  <li><strong>193.187.148.x Subnet Ownership:</strong> What additional IPs in the 193.187.148.x/24 M247 Frankfurt block are associated with this campaign? Initial findings (193.187.148.169, .247) suggest systematic use of this range.</li>
+  <li><strong>MalwareBazaar Gap:</strong> No PRISMEX components are currently listed in MalwareBazaar. Is this a deliberate operational security decision by APT28, or simply delayed upload? Monitor for emerging samples.</li>
+</ul>
+
+<!-- SOURCES -->
+<div class="sources">
+  <strong>Sources &amp; References</strong>
+  <div class="src-item">[1] TrendAI / Trend Micro (26 March 2026) — "APT28 PRISMEX Campaign: PRISMEX Malware Suite Targeting Ukraine and NATO Allies" — trendmicro.com (Primary Technical Report)</div>
+  <div class="src-item">[2] CERT-UA (2026) — Advisory attributing 159[.]253.120.2 and related infrastructure to APT28 Havoc C2 activity against Ukrainian infrastructure — cert.gov.ua</div>
+  <div class="src-item">[3] Security Affairs (2026) — Secondary analysis of PRISMEX campaign TTPs — securityaffairs.com</div>
+  <div class="src-item">[4] SOC Prime (April 2026) — "PRISMEX Detection: IOCs and Sigma Rules" — socprime.com</div>
+  <div class="src-item">[5] F5 Labs (April 2026) — Weekly threat bulletin covering PRISMEX campaign activity — f5.com/labs</div>
+  <div class="src-item">[6] SC Media (2026) — Brief coverage of APT28 PRISMEX attribution — scmagazine.com</div>
+  <div class="src-item">[7] The Hacker News (2026) — Summary amplification of Trend Micro primary reporting — thehackernews.com</div>
+  <div class="src-item">[8] VirusTotal (Analyst Research, April–May 2026) — Relations graph for wellnesscaremed[.]com; communicating file analysis for 23.227.202.138; sharedStrings.xml (f2a638...) attribution; graph by Lenard_ on freefoodaid[.]com → chickenkiller[.]com — virustotal.com</div>
+  <div class="src-item">[9] OTX AlienVault (April–May 2026) — Pulse data confirming freefoodaid[.]com, wellnessmedcare[.]org, longsauce[.]com associated infrastructure — otx.alienvault.com</div>
+  <div class="src-item">[10] AbuseIPDB (April 2026) — IP enrichment for 193.187.148.169 (M247 Frankfurt), 23.227.202.14 (Hivelocity), 72.62.185.31 (Hostinger Paris) — abuseipdb.com</div>
+  <div class="src-item">[11] Censys (April 2026) — Subnet pivot on 23.227.202.x/24 identifying active Havoc C2 login panel on .165, cross-linking .141, .116, .138 — censys.io</div>
+  <div class="src-item">[12] MITRE ATT&amp;CK Framework (2026) — Technique references for all TTPs cited in this report — attack.mitre.org</div>
+</div>
+
+<!-- FOOTER -->
+<footer class="doc-footer">
+  <div>
+    <strong>TI-RPT-2026-002</strong> · APT28 / Pawn Storm · PRISMEX Campaign 2026
+  </div>
+  <div>
+    TLP:CLEAR · Published 02 May 2026 · Portfolio Report · Educational Use
+  </div>
+</footer>
+
+</body>
+</html>
