@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Threat Hunt — Nikhil Jadhav</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0c0f;
+    --surface: #0f1318;
+    --card: #141920;
+    --border: #1e2530;
+    --accent: #00e5ff;
+    --accent2: #ff4757;
+    --accent3: #ffd32a;
+    --text: #e2e8f0;
+    --muted: #64748b;
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'Syne', sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: var(--sans); overflow-x: hidden; }
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(255,255,255,0.015) 39px, rgba(255,255,255,0.015) 40px),
+      repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(255,255,255,0.015) 39px, rgba(255,255,255,0.015) 40px);
+    pointer-events: none; z-index: 0;
+  }
+  header {
+    position: relative; z-index: 1;
+    padding: 80px 40px 60px;
+    border-bottom: 1px solid var(--border);
+    max-width: 1100px; margin: 0 auto;
+    animation: fadeDown 0.8s ease both;
+  }
+  .tag-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 24px; }
+  .tag { font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 12px; border-radius: 2px; border: 1px solid; }
+  .tag-red { color: var(--accent2); border-color: var(--accent2); background: rgba(255,71,87,0.07); }
+  .tag-cyan { color: var(--accent); border-color: var(--accent); background: rgba(0,229,255,0.07); }
+  .tag-yellow { color: var(--accent3); border-color: var(--accent3); background: rgba(255,211,42,0.07); }
+  h1 { font-family: var(--sans); font-size: clamp(2rem, 5vw, 3.8rem); font-weight: 800; line-height: 1.1; letter-spacing: -0.02em; background: linear-gradient(135deg, var(--text) 30%, var(--accent) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 20px; }
+  .subtitle { font-family: var(--mono); font-size: 13px; color: var(--muted); display: flex; gap: 24px; flex-wrap: wrap; align-items: center; }
+  .subtitle span { display: flex; align-items: center; gap: 6px; }
+  .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); display: inline-block; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+  @keyframes fadeDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+  main { max-width: 1100px; margin: 0 auto; padding: 0 40px 80px; position: relative; z-index: 1; }
+  .chain-section { padding: 60px 0 40px; animation: fadeUp 0.8s 0.2s ease both; }
+  .section-label { font-family: var(--mono); font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; }
+  .chain-box { background: var(--card); border: 1px solid var(--border); border-radius: 6px; padding: 28px 32px; font-family: var(--mono); font-size: 13px; line-height: 2; overflow-x: auto; }
+  .chain-box .c-gray { color: var(--muted); }
+  .chain-box .c-red { color: var(--accent2); font-weight: 700; }
+  .chain-box .c-cyan { color: var(--accent); font-weight: 700; }
+  .chain-box .c-yellow { color: var(--accent3); }
+  .chain-box .c-green { color: #2ecc71; }
+  .stages { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 40px; }
+  .stage-card { background: var(--card); border: 1px solid var(--border); border-radius: 6px; padding: 28px; transition: border-color 0.2s, transform 0.2s; animation: fadeUp 0.8s ease both; }
+  .stage-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .stage-num { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+  .stage-title { font-size: 16px; font-weight: 600; margin-bottom: 14px; line-height: 1.3; }
+  .finding-row { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 8px; }
+  .finding-key { font-family: var(--mono); font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; min-width: 70px; padding-top: 2px; }
+  .finding-val { font-family: var(--mono); font-size: 12px; color: var(--accent); word-break: break-all; }
+  .finding-val.red { color: var(--accent2); }
+  .finding-val.yellow { color: var(--accent3); }
+  .finding-val.green { color: #2ecc71; }
+  .kql-section { margin-top: 60px; animation: fadeUp 0.8s 0.4s ease both; }
+  .kql-grid { display: flex; flex-direction: column; gap: 24px; margin-top: 24px; }
+  .kql-block { background: var(--card); border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+  .kql-header { display: flex; align-items: center; justify-content: space-between; padding: 12px 20px; background: rgba(255,255,255,0.03); border-bottom: 1px solid var(--border); }
+  .kql-title { font-family: var(--mono); font-size: 12px; color: var(--accent3); }
+  .kql-badge { font-family: var(--mono); font-size: 10px; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
+  pre { padding: 20px; font-family: var(--mono); font-size: 12px; line-height: 1.7; overflow-x: auto; color: var(--text); }
+  .kw { color: #c792ea; }
+  .fn { color: var(--accent); }
+  .str { color: #c3e88d; }
+  .cm { color: var(--muted); font-style: italic; }
+  .op { color: var(--accent2); }
+  .mitre-section { margin-top: 60px; animation: fadeUp 0.8s 0.5s ease both; }
+  table { width: 100%; border-collapse: collapse; font-family: var(--mono); font-size: 12px; margin-top: 20px; }
+  th { text-align: left; padding: 12px 16px; background: var(--card); border: 1px solid var(--border); color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; font-size: 10px; }
+  td { padding: 12px 16px; border: 1px solid var(--border); vertical-align: top; }
+  tr:hover td { background: rgba(255,255,255,0.02); }
+  .tid { color: var(--accent); }
+  .infra-section { margin-top: 60px; }
+  .infra-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 20px; }
+  .infra-card { background: var(--card); border: 1px solid var(--border); border-radius: 6px; padding: 20px; }
+  .infra-label { font-family: var(--mono); font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
+  .infra-val { font-family: var(--mono); font-size: 13px; color: var(--accent2); font-weight: 700; word-break: break-all; }
+  .infra-sub { font-family: var(--mono); font-size: 11px; color: var(--text); margin-top: 6px; }
+  footer { border-top: 1px solid var(--border); padding: 40px; max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; font-family: var(--mono); font-size: 12px; color: var(--muted); position: relative; z-index: 1; }
+  footer a { color: var(--accent); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+  @media (max-width: 700px) {
+    .stages { grid-template-columns: 1fr; }
+    .infra-grid { grid-template-columns: 1fr; }
+    main { padding: 0 20px 60px; }
+    header { padding: 50px 20px 40px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="tag-row">
+    <span class="tag tag-red">Threat Hunt</span>
+    <span class="tag tag-cyan">Hypothesis Driven</span>
+    <span class="tag tag-yellow">Cobalt Strike</span>
+    <span class="tag tag-yellow">8 Stages</span>
+  </div>
+  <h1>Proxy Execution,<br>Registry Staging &amp;<br>Dual C2</h1>
+  <div class="subtitle">
+    <span><span class="dot"></span> Nikhil Jadhav</span>
+    <span>July 4-5, 2023</span>
+    <span>Microsoft Sentinel · KQL</span>
+    <span>Cobalt Strike Confirmed</span>
+  </div>
+</header>
+
+<main>
+  <section class="chain-section">
+    <div class="section-label">// Full Attack Chain</div>
+    <div class="chain-box">
+      <div><span class="c-gray">cmd.exe</span></div>
+      <div>&nbsp;&nbsp;<span class="c-gray">&#8627; </span><span class="c-red">regsvr32.exe</span> <span class="c-yellow">/s b565aa423ca4ba6e8c6b208c22e5b056.dll</span> &nbsp;<span class="c-gray">Proxy Execution</span></div>
+      <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-gray">&#8627; </span><span class="c-red">mshta.exe</span> <span class="c-yellow">about:hta:application&lt;script&gt;...&lt;/script&gt;</span> &nbsp;<span class="c-gray">Registry Staging</span></div>
+      <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-gray">&#8627; </span><span class="c-cyan">powershell.exe</span> <span class="c-yellow">IEX (registry read)</span> &nbsp;<span class="c-gray">PowerShell Pivot</span></div>
+      <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-gray">&#9500; </span><span class="c-red">rundll32.exe</span> &nbsp;<span class="c-gray">Follow-on LOLBin</span></div>
+      <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-gray">&#9500; </span><span class="c-cyan">C2 Beacon</span> <span class="c-gray">(jQuery masquerade · 173.44.141.237)</span></div>
+      <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-gray">&#9492; </span><span class="c-green">WINWORD.exe</span> <span class="c-yellow">Cyber-Insurance-Agreement.docx</span> &nbsp;<span class="c-gray">Operator Recon</span></div>
+    </div>
+  </section>
+
+  <div class="section-label">// Investigation Stages</div>
+  <div class="stages">
+    <div class="stage-card" style="animation-delay:0.1s">
+      <div class="stage-num">Stage 01</div>
+      <div class="stage-title">Initial Proxy Execution</div>
+      <div class="finding-row"><span class="finding-key">LOLBin</span><span class="finding-val">regsvr32.exe</span></div>
+      <div class="finding-row"><span class="finding-key">Payload</span><span class="finding-val">b565aa423ca4ba6e8c6b208c22e5b056.dll</span></div>
+      <div class="finding-row"><span class="finding-key">Parent</span><span class="finding-val">mshta.exe</span></div>
+    </div>
+    <div class="stage-card" style="animation-delay:0.15s">
+      <div class="stage-num">Stage 02</div>
+      <div class="stage-title">Registry-Backed Staging</div>
+      <div class="finding-row"><span class="finding-key">URI</span><span class="finding-val">about:</span></div>
+      <div class="finding-row"><span class="finding-key">RegPath</span><span class="finding-val">HKCU\Software\AppDataLow\...\MarkTime</span></div>
+      <div class="finding-row"><span class="finding-key">Method</span><span class="finding-val yellow">Inline HTA execution</span></div>
+    </div>
+    <div class="stage-card" style="animation-delay:0.2s">
+      <div class="stage-num">Stage 03</div>
+      <div class="stage-title">Anti-Forensics &amp; Discovery</div>
+      <div class="finding-row"><span class="finding-key">Cleanup</span><span class="finding-val red">Ping-delayed DLL self-deletion</span></div>
+      <div class="finding-row"><span class="finding-key">Staging</span><span class="finding-val">AppData\Local\Temp\</span></div>
+    </div>
+    <div class="stage-card" style="animation-delay:0.25s">
+      <div class="stage-num">Stage 04</div>
+      <div class="stage-title">Dual C2 Channels</div>
+      <div class="finding-row"><span class="finding-key">Masquerade</span><span class="finding-val">jQuery URI paths</span></div>
+      <div class="finding-row"><span class="finding-key">Technique</span><span class="finding-val">Invoke-Expression (IEX)</span></div>
+      <div class="finding-row"><span class="finding-key">Type</span><span class="finding-val yellow">In-memory staging</span></div>
+    </div>
+    <div class="stage-card" style="animation-delay:0.3s">
+      <div class="stage-num">Stage 05</div>
+      <div class="stage-title">Follow-On Operator Actions</div>
+      <div class="finding-row"><span class="finding-key">LOLBin</span><span class="finding-val">rundll32.exe</span></div>
+      <div class="finding-row"><span class="finding-key">Document</span><span class="finding-val red">Cyber-Insurance-Agreement.docx</span></div>
+    </div>
+    <div class="stage-card" style="animation-delay:0.35s">
+      <div class="stage-num">Stage 07</div>
+      <div class="stage-title">Shellcode Execution Attempt</div>
+      <div class="finding-row"><span class="finding-key">PID</span><span class="finding-val">13092</span></div>
+      <div class="finding-row"><span class="finding-key">Result</span><span class="finding-val green">FAILED — no injection events</span></div>
+      <div class="finding-row"><span class="finding-key">URL</span><span class="finding-val" style="font-size:10px">173-44-141-47.nip.io/edd30e</span></div>
+    </div>
+  </div>
+
+  <section class="kql-section">
+    <div class="section-label">// KQL Detection Queries</div>
+    <div class="kql-grid">
+      <div class="kql-block">
+        <div class="kql-header"><span class="kql-title">Proxy Execution — regsvr32 Hunt</span><span class="kql-badge">logs_edr_labs_CL</span></div>
+        <pre><span class="cm">// Find suspicious regsvr32 process starts</span>
+<span class="fn">logs_edr_labs_CL</span>
+<span class="kw">| where</span> event_action_s <span class="op">==</span> <span class="str">"process-start"</span>
+<span class="kw">| where</span> process_name_s <span class="op">=~</span> <span class="str">"regsvr32.exe"</span>
+<span class="kw">| project</span> timestamp, user_name_s, process_name_s,
+          process_parent_name_s, body_s
+<span class="kw">| sort by</span> timestamp <span class="kw">asc</span></pre>
+      </div>
+      <div class="kql-block">
+        <div class="kql-header"><span class="kql-title">mshta.exe Inline HTA Execution</span><span class="kql-badge">logs_edr_labs_CL</span></div>
+        <pre><span class="cm">// Inspect mshta.exe for about: URI scheme</span>
+<span class="fn">logs_edr_labs_CL</span>
+<span class="kw">| where</span> process_name_s <span class="op">==</span> <span class="str">"mshta.exe"</span>
+<span class="kw">| where</span> timestamp <span class="kw">between</span> (datetime(<span class="str">2023-07-04T20:20:30Z</span>)
+                        <span class="op">..</span> datetime(<span class="str">2023-07-04T20:20:50Z</span>))
+<span class="kw">| project</span> timestamp, process_name_s, process_parent_name_s,
+          body_s, process_command_line_s</pre>
+      </div>
+      <div class="kql-block">
+        <div class="kql-header"><span class="kql-title">PowerShell Registry Staging Pivot</span><span class="kql-badge">logs_powershell_lab_CL</span></div>
+        <pre><span class="cm">// Correlate PowerShell with registry staging window</span>
+<span class="fn">logs_powershell_lab_CL</span>
+<span class="kw">| where</span> TimeCreated_t <span class="kw">between</span> (datetime(<span class="str">2023-07-04T20:19:00Z</span>)
+                           <span class="op">..</span> datetime(<span class="str">2023-07-04T20:21:00Z</span>))
+<span class="kw">| project</span> TimeCreated_t, UserName_s, Computer,
+          PayloadData2_s, Provider_s
+<span class="kw">| sort by</span> TimeCreated_t <span class="kw">asc</span></pre>
+      </div>
+      <div class="kql-block">
+        <div class="kql-header"><span class="kql-title">C2 Beacon — jQuery Masquerade</span><span class="kql-badge">logs_network_labs_CL</span></div>
+        <pre><span class="cm">// High-frequency beaconing URI detection</span>
+<span class="fn">logs_network_labs_CL</span>
+<span class="kw">| summarize</span> <span class="fn">count()</span> <span class="kw">by</span> url_full_s, url_domain_s, url_path_s
+<span class="kw">| where</span> count_ <span class="op">></span> 5
+<span class="kw">| sort by</span> count_ <span class="kw">desc</span></pre>
+      </div>
+      <div class="kql-block">
+        <div class="kql-header"><span class="kql-title">Core Detection — Full Intrusion Chain</span><span class="kql-badge">Score: 45/100</span></div>
+        <pre><span class="cm">// Composite: proxy exec + registry staging + PS pivot</span>
+<span class="fn">logs_edr_labs_CL</span>
+<span class="kw">| extend</span> ts <span class="op">=</span> <span class="fn">todatetime</span>(timestamp_s)
+<span class="kw">| where</span> ts <span class="kw">between</span> (datetime(<span class="str">2023-07-04T20:19:00Z</span>)
+               <span class="op">..</span> datetime(<span class="str">2023-07-04T20:21:00Z</span>))
+<span class="kw">| extend</span> cmd <span class="op">=</span> <span class="fn">coalesce</span>(process_command_line_s, body_s)
+<span class="kw">| where</span>
+    (process_name_s <span class="op">=~</span> <span class="str">"regsvr32.exe"</span>)
+    <span class="kw">or</span> (process_name_s <span class="op">=~</span> <span class="str">"mshta.exe"</span>)
+    <span class="kw">or</span> (process_name_s <span class="op">=~</span> <span class="str">"powershell.exe"</span>
+        <span class="kw">and</span> cmd <span class="kw">has</span> <span class="str">"IEX"</span>)
+<span class="kw">| project</span> ts, process_name_s, process_parent_name_s, cmd
+<span class="kw">| sort by</span> ts <span class="kw">asc</span></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="mitre-section">
+    <div class="section-label">// MITRE ATT&amp;CK Mapping</div>
+    <table>
+      <thead><tr><th>Technique</th><th>ID</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td>Signed Binary Proxy Execution: Regsvr32</td><td class="tid">T1218.010</td><td>DLL loaded via regsvr32.exe from user-writable path</td></tr>
+        <tr><td>Signed Binary Proxy Execution: Mshta</td><td class="tid">T1218.005</td><td>Inline HTA execution via about: URI</td></tr>
+        <tr><td>Registry Run Keys / Startup Folder</td><td class="tid">T1547.001</td><td>Payload staged in HKCU registry key</td></tr>
+        <tr><td>PowerShell</td><td class="tid">T1059.001</td><td>IEX-based in-memory execution</td></tr>
+        <tr><td>Signed Binary Proxy Execution: Rundll32</td><td class="tid">T1218.011</td><td>Follow-on DLL execution via rundll32.exe</td></tr>
+        <tr><td>Indicator Removal: File Deletion</td><td class="tid">T1070.004</td><td>Ping-delayed DLL self-deletion</td></tr>
+        <tr><td>Web Protocols (C2)</td><td class="tid">T1071.001</td><td>jQuery-masqueraded HTTP beaconing</td></tr>
+        <tr><td>Data Staged: Local Data Staging</td><td class="tid">T1074.001</td><td>Discovery output redirected to Temp directory</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="infra-section">
+    <div class="section-label">// C2 Infrastructure</div>
+    <div class="infra-grid">
+      <div class="infra-card">
+        <div class="infra-label">Beacon IP</div>
+        <div class="infra-val">173.44.141.237</div>
+        <div class="infra-sub">AS Owner: Eonix Corporation</div>
+      </div>
+      <div class="infra-card">
+        <div class="infra-label">C2 IP → Malware</div>
+        <div class="infra-val">152.89.198.29</div>
+        <div class="infra-sub">Family: Cobalt Strike</div>
+      </div>
+      <div class="infra-card">
+        <div class="infra-label">Shellcode URL</div>
+        <div class="infra-val" style="font-size:11px">173-44-141-47.nip.io/edd30e</div>
+        <div class="infra-sub">Status: Failed retrieval</div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div>
+    <a href="https://www.linkedin.com/in/nikhil-jadhav-bb2568225/">LinkedIn</a> &nbsp;·&nbsp;
+    <a href="https://github.com/NikhilJadhav90">GitHub</a>
+  </div>
+  <div>Nikhil Jadhav · Threat Hunt Report · 2023</div>
+</footer>
+</body>
+</html>
